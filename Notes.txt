@@ -1,0 +1,23 @@
+Visual code
+npm install firebase@8.10.0 
+npm install puppeteer-extra
+npm install puppeteer-extra-plugin-stealth
+npm install express
+npm install cors
+
+
+
+
+
+Android Studio
+
+Gradle Scripts-> buid.gradle
+
+compileSdk 31
+targetSdk 31
+compileSdkVersion 31
+buildToolsVersion '31.0.0'
+
+Ove verzije moraju biti podesene kako bi omogucili Connect-to-Firebase opciju 
+
+Tools->Firebase->RealtimeDatabase->Connect-To-Firebase

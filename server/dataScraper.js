@@ -660,8 +660,8 @@ async function openGoogleTest(email, password) {
 
 module.exports={scrapeAthleteLogin}
 
-//scrapeAthleteLogin('https://www.strava.com/athletes/26934035')
-//openGoogleTest()
+scrapeAthleteLogin('https://www.strava.com/athletes/26934035')
+
 
 /*
  const posts = await page.$$eval(".a-title a", (articles) => { //selector is first parameter 
