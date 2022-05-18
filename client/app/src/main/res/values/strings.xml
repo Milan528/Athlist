@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Athlist</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="new_user_sing_up_today">New user? Sing up today!</string>
+    <string name="help_us_get_you_started">Help us get you started!</string>
+    <string name="register">Register</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="welcome_text">Welcome Text</string>
+    <string name="today_s_date">Today\'s date</string>
+    <string name="test">Test</string>
+    <string name="profile">Profile</string>
+    <string name="athlete_popularity">Athlete popularity</string>
+    <string name="add_athlete">Add Athlete</string>
+    <string name="connect_to_strava">Connect to Strava</string>
+
 </resources>

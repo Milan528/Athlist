@@ -10,8 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Athlist">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".activities.HomePageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Athlist.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
