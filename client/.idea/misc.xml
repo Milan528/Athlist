@@ -8,16 +8,22 @@
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_email.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_lock24.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_pin.xml" value="0.290625" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_pin_2.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_phone.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_wave.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/roud_border_purple_700.xml" value="0.290625" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rouded_corners_white_background.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/round_border.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/round_border_purple_700.xml" value="0.290625" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rounded_corners_white_background.xml" value="0.25135135135135134" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rounded_top_border.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout-v26/activity_home_page.xml" value="0.27447916666666666" />
-        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_home_page.xml" value="0.27447916666666666" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_home_page.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_my_profile.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_register.xml" value="0.2604166666666667" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/my_profile_header.xml" value="0.23738738738738738" />
       </map>
     </option>
   </component>

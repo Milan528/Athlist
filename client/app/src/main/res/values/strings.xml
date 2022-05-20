@@ -20,5 +20,7 @@
     <string name="athlete_popularity">Athlete popularity</string>
     <string name="add_athlete">Add Athlete</string>
     <string name="connect_to_strava">Connect to Strava</string>
+    <string name="my_profile">My Profile</string>
+    <string name="strava">Strava</string>
 
 </resources>
