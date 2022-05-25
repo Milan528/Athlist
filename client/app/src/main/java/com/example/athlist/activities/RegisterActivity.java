@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 userData.put("username", usernameText);
                 userData.put("phoneNumber", phoneNumberText);
                 userData.put("password", passwordText);
-                AppClient.getInstance().registerUser(userData,userRegistrationCallback);
+                AppClient.getInstance().registerUser(userData,userRegistrationCallback,this);
             }
         }
     }

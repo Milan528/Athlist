@@ -1,6 +1,7 @@
 package com.example.athlist.clients;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -53,7 +54,7 @@ public class FirebaseAuthClient extends MyFirebaseClient {
 
 
 
-    public void registerUser(final HashMap<String,String> params,final IUserRegistrationCallback callback) {
+    public void registerUser(final HashMap<String,String> params, final IUserRegistrationCallback callback, Context context) {
         firebaseAuth.createUserWithEmailAndPassword(Objects.requireNonNull(params.get("email")), Objects.requireNonNull(params.get("password"))).addOnCompleteListener(
                 task -> {
                     if(!task.isSuccessful()) {
@@ -66,7 +67,8 @@ public class FirebaseAuthClient extends MyFirebaseClient {
                         user.setEmail(params.get("email"));
                         user.setUsername(params.get("username"));
                         user.setPhoneNumber(params.get("phoneNumber"));
-                        AppClient.getInstance().writeUserProfile(user);
+                        user.setConnectedToStrava(false);
+                        AppClient.getInstance().writeUserProfile(user,context);
                         callback.userRegistrationSuccess();
                     }
                 });

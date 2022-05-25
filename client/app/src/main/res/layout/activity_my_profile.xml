@@ -126,8 +126,8 @@
         android:id="@+id/view3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:elevation="10sp"
         android:background="@drawable/rounded_corners_white_background"
+        android:elevation="10sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toStartOf="@+id/guideline20"
         app:layout_constraintStart_toStartOf="@+id/guideline19"
@@ -139,11 +139,14 @@
         android:layout_height="0dp"
         android:elevation="10sp"
         android:src="@drawable/profile_default"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="100dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline24"
         app:layout_constraintStart_toStartOf="@+id/guideline23"
         app:layout_constraintTop_toTopOf="@+id/guideline25"
-        app:riv_corner_radius="100sp" />
+         />
 
     <TextView
         android:id="@+id/profile_page_username_textView"
@@ -171,6 +174,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline20"
         app:layout_constraintStart_toStartOf="@+id/guideline19"
         app:layout_constraintTop_toBottomOf="@+id/guideline14" />
+
 
     <View
         android:id="@+id/view5"
@@ -201,6 +205,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profile_page_username_textView" />
 
     <TextView
+        android:id="@+id/profile_page_strava_profile_textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
@@ -216,14 +221,23 @@
         app:layout_constraintStart_toStartOf="@+id/guideline27"
         app:layout_constraintTop_toBottomOf="@+id/profile_page_username_textView" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+        <FrameLayout
+            android:id="@+id/profile_page_fragmentHost_frameLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="10sp"
+            android:layout_marginTop="20sp"
+            android:padding="5sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline18"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline17"
+            app:layout_constraintTop_toTopOf="@+id/guideline22"
+            />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

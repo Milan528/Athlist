@@ -22,5 +22,12 @@
     <string name="connect_to_strava">Connect to Strava</string>
     <string name="my_profile">My Profile</string>
     <string name="strava">Strava</string>
+    <string name="add_information">Add information</string>
+    <string name="email_example">milan1andjelovic@gmail.com</string>
+    <string name="loading">Loading...</string>
+    <string name="title">Title</string>
+    <string name="insert_title">Insert title :</string>
+    <string name="information">Information :</string>
+    <string name="connect_to_strava_in_order_to_display_profile_information">Connect to strava in order to display profile information!</string>
 
 </resources>

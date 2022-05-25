@@ -4,10 +4,17 @@ import android.graphics.Bitmap;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private String email;
     private String phoneNumber;
     private String username;
+    private List<ProfileInformationElements> additionalInformation;
+    private boolean connectedToStrava;
+
+
     @Exclude
     private String userID;
     @Exclude
@@ -24,14 +31,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Exclude
-    public String getUserID() {
-        return userID;
-    }
-    @Exclude
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -47,6 +46,31 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<ProfileInformationElements> getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(List<ProfileInformationElements> additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
+
+    public boolean getConnectedToStrava() {
+        return connectedToStrava;
+    }
+
+    public void setConnectedToStrava(boolean connectedToStrava) {
+        this.connectedToStrava = connectedToStrava;
+    }
+
+    @Exclude
+    public String getUserID() {
+        return userID;
+    }
+    @Exclude
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
     @Exclude
     public Bitmap getProfilePhoto() {

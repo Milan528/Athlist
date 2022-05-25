@@ -2,12 +2,14 @@ package com.example.athlist.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.athlist.R;
 import com.example.athlist.clients.AppClient;
+import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
 import com.example.athlist.interfaces.ILoginUserCallback;
 import com.example.athlist.interfaces.IRecoverPasswordCallback;
 
@@ -24,8 +27,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView textViewForgotPassword,textViewRegister;
     EditText editTextEmail,editTextPassword;
     Button btnLogin;
+    ProgressBar progressBar;
     ILoginUserCallback loginUserCallback;
     IRecoverPasswordCallback recoverPasswordCallback;
+    IFetchLoggedUserDataListener userDataListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextEmail=findViewById(R.id.login_page_editTextEmail);
         editTextPassword=findViewById(R.id.login_page_editTextTextPassword);
         btnLogin=findViewById(R.id.login_page_buttonLogin);
+        progressBar=findViewById(R.id.login_page_progressBar);
 
         btnLogin.setOnClickListener(this);
         textViewForgotPassword.setOnClickListener(this);
@@ -47,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginUserCallback=new LoginUserCallback();
         recoverPasswordCallback=new RecoverPasswordCallback();
+        userDataListener=new FetchLoggedUserDataCallback();
 
     }
 
@@ -90,12 +97,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(validateInfo(emailText,passwordText))
         {
             AppClient.getInstance().loginUser(emailText,passwordText,loginUserCallback);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
     private void openHomePage(){
-        Intent intent = new Intent(this, HomePageActivity.class);
-        this.finish();
-        startActivity(intent);
+        //if(AppClient.getInstance().getLoggedUser().getProfilePhoto()!=null && AppClient.getInstance().getLoggedUser().getBackgroundPhoto()!=null) {
+            progressBar.setVisibility(View.INVISIBLE);
+            Intent intent = new Intent(this, HomePageActivity.class);
+            startActivity(intent);
+            this.finish();
+        //}
     }
 
     private void showRecoverPasswordDialog()
@@ -138,14 +149,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
+
+
     private class LoginUserCallback implements ILoginUserCallback {
         @Override
         public void userLoginSuccess() {
-           openHomePage();
+           AppClient.getInstance().readLoggedUserProfile(userDataListener);
         }
         @Override
         public void userLoginFailed() {
             Toast.makeText(LoginActivity.this,"Login failed. Please try again later", Toast.LENGTH_LONG).show();
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -154,6 +168,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void passwordRecoveryResult(String message) {
             Toast.makeText(LoginActivity.this,message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class FetchLoggedUserDataCallback implements IFetchLoggedUserDataListener {
+
+        @Override
+        public void loggedUserFetchSuccess() {
+            Toast.makeText(LoginActivity.this,"Logging in...", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void loggedUserProfileImageFetchSuccess() {
+            //Toast.makeText(LoginActivity.this,"Profile image fetched", Toast.LENGTH_LONG).show();
+            openHomePage();
+
+
+        }
+
+        @Override
+        public void loggedUserBackgroundFetchSuccess() {
+            //Toast.makeText(LoginActivity.this,"Bg image fetched", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void loggedUserFetchFailed(String message) {
+            //Toast.makeText(LoginActivity.this,message, Toast.LENGTH_LONG).show();
         }
     }
 }
