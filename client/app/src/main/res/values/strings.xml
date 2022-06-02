@@ -29,5 +29,23 @@
     <string name="insert_title">Insert title :</string>
     <string name="information">Information :</string>
     <string name="connect_to_strava_in_order_to_display_profile_information">Connect to strava in order to display profile information!</string>
+    <string name="download_data">Dowload Data</string>
+    <string name="strava_email">Strava Email</string>
+    <string name="strava_password">Strava Password</string>
+    <string name="view_activities">View Activities</string>
+    <string name="view_profile">View Profile</string>
+    <string name="download_strava_profile">Download strava profile</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thur">THUR</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="backArrow"><![CDATA[<]]></string>
+    <string name="nextArrow"><![CDATA[>]]></string>
+    <string name="empty" />
+    <string name="filters">Filters</string>
+
 
 </resources>

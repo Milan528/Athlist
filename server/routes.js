@@ -1,37 +1,28 @@
 const express = require("express");
 const cors = require("cors");
-const { readAllAthletes,readAllAthletePosts,readAllAthleteSegments } = require("./firebaseClient.js")
-const { scrapeAthleteLogin } = require("./dataScraper.js")
+const { scrapeUserData,scrapeUserRunActivity } = require("./dataScraper.js")
+const { connectToStrava } = require("./cookiesScraper.js")
 const router = express();
 router.use(cors());
 router.use(express.urlencoded({extended: true}));
 router.use(express.json())
 
-
-router.get("/getAllAthletes", async(req, res) => {
-    const data = await readAllAthletes();
-    //res.send("u adresi ukucaj /proizvodi");
-     res.json(data)
+router.post("/connectToStrava", async(req, res) =>{
+   const data = await connectToStrava(req.body.email,req.body.password,req.body.uid)
+   res.status(data.status).send(JSON.stringify(data))
 })
 
-router.post("/getAthletePosts", async(req, res) => {
-    const data = await readAllAthletePosts(req.body.ID)
-    res.json(data)
 
+router.post("/scrapeUserData", async(req, res) =>{
+    console.log("Scraping for id: "+req.body.uid)
+    const data = await scrapeUserData(req.body.uid)
+    res.status(data.status).send(JSON.stringify(data))
 })
 
-router.post("/getAthleteSegments", async(req, res) => {
-    const data = await readAllAthleteSegments(req.body.ID)
-    res.json(data)
-
-})
-
-router.post("/scrapeAthlete", async(req, res) => {
-    const data = await scrapeAthleteLogin(req.body.url)
+router.post("/scrapeUserRunActivity", async(req, res) =>{
+    const data = await scrapeUserRunActivity(req.body.link,req.body.uid)
     res.send(data)
-
 })
-
 
 router.listen(4000, () => {
     console.log(`Server started on port: 4000`);

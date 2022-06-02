@@ -135,7 +135,7 @@
                    android:layout_width="80sp"
                    android:layout_height="80sp"
                    app:riv_corner_radius="12sp"
-                   android:src="@drawable/profile_default"/>
+                   android:src="@drawable/ic_person_pin"/>
                <TextView
                    android:textSize="15sp"
                    android:layout_marginTop="12sp"
@@ -174,6 +174,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/home_page_connectToStrava_cardView"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
@@ -191,7 +192,7 @@
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     app:riv_corner_radius="12sp"
-                    android:src="@drawable/profile_default"/>
+                    android:src="@drawable/ic_add_link"/>
                 <TextView
                     android:textSize="15sp"
                     android:layout_marginTop="12sp"
@@ -202,6 +203,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/home_page_viewActivities_cardView"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
@@ -219,14 +221,14 @@
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     app:riv_corner_radius="12sp"
-                    android:src="@drawable/profile_default"/>
+                    android:src="@drawable/ic_local_activity"/>
                 <TextView
                     android:textSize="15sp"
                     android:layout_marginTop="12sp"
                     android:textAlignment="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/athlete_popularity"/>
+                    android:text="@string/view_activities"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView

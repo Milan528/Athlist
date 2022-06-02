@@ -47,8 +47,15 @@ function extractPostTypeFromText(text){
 }
 
 
+function extractDateFromString(text){
+    const myArray = text.split(" ");
+    return myArray[1]
+}
+
+
 module.exports={
     extractIdFromUrl,
-    extractPostTypeFromText
+    extractPostTypeFromText,
+    extractDateFromString
 }
     

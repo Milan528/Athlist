@@ -24,11 +24,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CardView profileCardView;
+    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView;
     RoundedImageView profileImage;
     TextView welcomeTextView, todaysDateTextView;
 
@@ -48,12 +47,16 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
 
     private void initializeComponents() {
         profileCardView=findViewById(R.id.home_page_profile_cardView);
+        connectToStravaCardView=findViewById(R.id.home_page_connectToStrava_cardView);
+        viewActivitiesCardView=findViewById(R.id.home_page_viewActivities_cardView);
         profileImage=findViewById(R.id.home_page_imageViewProfile);
         welcomeTextView=findViewById(R.id.home_page_welcome_textView);
         todaysDateTextView=findViewById(R.id.home_page_todaysDate_textView);
 
         profileImage.setImageBitmap(AppClient.getInstance().getLoggedUser().getProfilePhoto());
         profileCardView.setOnClickListener(this);
+        connectToStravaCardView.setOnClickListener(this);
+        viewActivitiesCardView.setOnClickListener(this);
     }
 
     @Override
@@ -62,7 +65,14 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         if(clickedId==R.id.home_page_profile_cardView){
             Intent intent = new Intent(this, MyProfile.class);
             startActivity(intent);
+        }else if(clickedId==R.id.home_page_connectToStrava_cardView){
+            Intent intent = new Intent(this, ConnectToStravaActivity.class);
+            startActivity(intent);
+        }else if(clickedId==R.id.home_page_viewActivities_cardView) {
+            Intent intent = new Intent(this, StravaActivitiesActivity.class);
+            startActivity(intent);
         }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

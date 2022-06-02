@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.athlist.R;
 
 import com.example.athlist.clients.AppClient;
+import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.fragments.MyProfileInformationFragment;
 import com.example.athlist.fragments.StravaConnectionStatusFragment;
 import com.example.athlist.fragments.StravaProfileInformationFragment;
@@ -37,7 +38,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MyProfile extends AppCompatActivity implements View.OnClickListener {
@@ -130,7 +130,7 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         myProfileTextView.setPaintFlags(View.INVISIBLE);
 
         myProfileSelected=false;
-        if(AppClient.getInstance().getLoggedUser().getConnectedToStrava()) {
+        if(AppClient.getInstance().getLoggedUser().getConnectionStatus() == StravaConnectionStatus.CONNECTED && AppClient.getInstance().getLoggedUser().getStravaProfile()!=null) {
             displayFragment(stravaProfileInformationFragment);
         }else{
             displayFragment(stravaConnectionStatusFragment);

@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.athlist.R;
+import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
 import com.example.athlist.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -86,10 +87,12 @@ public class FirebaseMapperClient extends MyFirebaseClient{
                 if(user.getAdditionalInformation()==null)
                     user.setAdditionalInformation(new ArrayList<>());
 
+
                 AppClient.getInstance().setLoggedUser(user);
                 databaseUserReference.child(userID).removeEventListener(this);
                 callback.loggedUserFetchSuccess();
                 getUserImages(userID, callback);
+                readStravaProfile();
             }
 
             @Override
@@ -98,6 +101,14 @@ public class FirebaseMapperClient extends MyFirebaseClient{
             }
         });
 
+    }
+
+    private void readStravaProfile() {
+        //not implemented
+    }
+
+    private void writeStravaProfile(){
+        //not implemented
     }
 
     private void getUserImages(String userID, IFetchLoggedUserDataListener callback) {
@@ -150,5 +161,9 @@ public class FirebaseMapperClient extends MyFirebaseClient{
     public void writeLoggedUserProfileInformation() {
         String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         databaseUserReference.child(uid).child("additionalInformation").setValue(AppClient.getInstance().getLoggedUser().getAdditionalInformation());
+    }
+
+    public void writeConnectionStatus(String userID, StravaConnectionStatus status) {
+        databaseUserReference.child(userID).child("connectionStatus").setValue(status);
     }
 }

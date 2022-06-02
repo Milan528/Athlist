@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ConnectToStravaActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"/>
+
+    <View
+        android:id="@+id/connect_to_strava_header_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/home_page_header"
+        app:layout_constraintBottom_toTopOf="@+id/guideline34"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/connect_to_strava_textViewConnectionStatus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:padding="15sp"
+        android:text="Connection Status: \nCONNECTED"
+        android:textColor="@color/teal_200"
+        app:layout_constraintBottom_toTopOf="@+id/guideline37"
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toTopOf="@+id/connect_to_strava_header_view" />
+
+    <EditText
+        android:id="@+id/connect_to_strava_editTextEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:background="@drawable/round_border"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="16sp"
+        android:hint="@string/strava_email"
+        android:inputType="textEmailAddress"
+        android:padding="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toTopOf="@+id/guideline34" />
+
+    <EditText
+        android:id="@+id/connect_to_strava_editTextTextPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:background="@drawable/round_border"
+        android:drawableStart="@drawable/ic_lock24"
+        android:drawablePadding="16sp"
+        android:hint="@string/strava_password"
+        android:inputType="textPassword"
+        android:padding="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_editTextEmail" />
+
+    <Button
+        android:id="@+id/connect_to_strava_buttonConnect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/round_border_purple_700"
+        android:text="@string/connect_to_strava"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_editTextTextPassword" />
+
+    <Button
+        android:id="@+id/connect_to_strava_buttonScrapeUserData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_border_purple_700"
+        android:text="@string/download_data"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginTop="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonConnect" />
+
+    <Button
+        android:id="@+id/connect_to_strava_buttonViewActivities"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_border_purple_700"
+        android:text="@string/view_activities"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginTop="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonScrapeUserData" />
+
+    <Button
+        android:id="@+id/connect_to_strava_buttonViewProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_border_purple_700"
+        android:text="@string/view_profile"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginTop="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline36"
+        app:layout_constraintStart_toStartOf="@+id/guideline35"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonViewActivities" />
+
+    <ProgressBar
+        android:id="@+id/connect_to_strava_progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/red"
+        android:max="100"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonViewProfile"
+        tools:layout_editor_absoluteX="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

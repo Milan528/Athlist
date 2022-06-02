@@ -1,56 +1,17 @@
 
 const puppeteer = require('puppeteer-extra');
 const pluginStealth = require('puppeteer-extra-plugin-stealth');
+const {strava_login_url} = require("./stravaUrls.js")
 puppeteer.use(pluginStealth());
 const fs = require('fs');
-const login_url_strava='https://www.strava.com/';
-//const config = require('./config.json'); // contains username and password to use
-
-// const delay = ms => new Promise(res => setTimeout(res, ms));
-
-const login_url='https://www.google.com/';
-console.info("login_url is ", login_url);
 
 
-async function googleTEst() {
-    const browser = await puppeteer.launch({headless: false});
-    const page = await browser.newPage();
-    await page.goto(login_url, {waitUntil: 'load'});
-    console.log(page.url());
-   
-    let username='milan12andjelovic@gmail.com'
-    let password='$$1lena$$'
-    
-    await page.click('.gb_1.gb_2.gb_9d.gb_9c')
-  
-    await page.waitForNavigation();
-    await page.type('#identifierId',username,{ delay: 200 }); 
-    
-    await page.click('.VfPpkd-dgl2Hf-ppHlrf-sM5MNb button')
-    await page.waitForNavigation({waitUntil: 'networkidle2'});
-    await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-    await page.type('.Xb9hP input', password,{ delay: 300 });
 
-    await page.click('.VfPpkd-dgl2Hf-ppHlrf-sM5MNb button');
-    await page.waitForNavigation();
-
-     const cookies = await page.cookies()
-     console.info("cookies are ", cookies);
-
-     fs.writeFile('cookies-session.json', JSON.stringify(cookies, null, 2), function(err) {
-         if (err) throw err;
-         console.log('completed write of cookies');
-     });
-
-    browser.close();
-}
-
-
-async function loginUserAndSaveCookies(email, password) {
+async function connectToStrava(email, password, uid) {
 
     const browser = await puppeteer.launch({ headless: false });
     const pageLogin = await browser.newPage();
-    await pageLogin.goto(login_url_strava, {waitUntil: 'load'});
+    await pageLogin.goto(strava_login_url, {waitUntil: 'load'});
     await pageLogin.waitForSelector('nav a')
     await pageLogin.click('nav a')
     await pageLogin.waitForSelector('.btn-accept-cookie-banner')
@@ -63,18 +24,43 @@ async function loginUserAndSaveCookies(email, password) {
     await pageLogin.type('#password', password, { delay: 300 })
     await pageLogin.click("#login-button")
 
-    await pageLogin.waitForNavigation()
+    //await pageLogin.waitForNavigation()
+    //await pageLogin.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+    await pageLogin.waitForSelector('.avatar-badge')
+
+   // setTimeout(() => {
+        
 
     const cookies = await pageLogin.cookies()
     console.info("cookies are ", cookies);
+    pageLogin.close()
+    browser.close()
 
-     fs.writeFile('strava-cookies-session.json', JSON.stringify(cookies, null, 2), function(err) {
-         if (err) throw err;
-         console.log('completed write of cookies');
-     });
+   // }, 2000);
 
-   // return browser
+    // let result = await fs.writeFile(uid+'_strava-cookies-session.json', JSON.stringify(cookies, null, 2), function(err) {
+    //      if (err) return -1
+    //      return 0 
+    //  });
 
+     let result={
+         status: 400,
+         message: "Msg"
+     }
+     try{
+        fs.writeFileSync(uid+'_strava-cookies-session.json', JSON.stringify(cookies, null, 2))
+        result.status=200
+        result.message="Connected"
+     }catch(error){
+        result.status=500
+        result.message=error
+     }
+
+     return result
 }
-//googleTEst()
-loginUserAndSaveCookies("milan1andjelovic@gmail.com","123456789")
+
+module.exports={
+    connectToStrava
+}
+
+//connectToStrava("milan1andjelovic@gmail.com","123456789","8MMCH0Cc5tWUWyl6GmukrQfzk993")

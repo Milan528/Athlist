@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.athlist.R;
 import androidx.annotation.NonNull;
 
+import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.interfaces.ILoginUserCallback;
 import com.example.athlist.interfaces.IRecoverPasswordCallback;
 import com.example.athlist.interfaces.IUserRegistrationCallback;
@@ -67,7 +68,7 @@ public class FirebaseAuthClient extends MyFirebaseClient {
                         user.setEmail(params.get("email"));
                         user.setUsername(params.get("username"));
                         user.setPhoneNumber(params.get("phoneNumber"));
-                        user.setConnectedToStrava(false);
+                        user.setConnectionStatus(StravaConnectionStatus.NOT_CONNECTED);
                         AppClient.getInstance().writeUserProfile(user,context);
                         callback.userRegistrationSuccess();
                     }

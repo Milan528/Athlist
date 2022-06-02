@@ -9,4 +9,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#A6A4A4</color>
+    <color name="red">#D31111</color>
+    <color name="defaultWhite">#fffafafa</color>
+    <color name="orange">#E85020</color>
 </resources>
