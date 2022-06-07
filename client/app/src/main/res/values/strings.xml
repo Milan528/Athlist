@@ -46,6 +46,18 @@
     <string name="nextArrow"><![CDATA[>]]></string>
     <string name="empty" />
     <string name="filters">Filters</string>
+    <string name="profile_name">Profile Name</string>
+    <string name="select_a_profile_to_receive_activities">Select a profile to receive activities</string>
+    <string name="add_monthly_activities">Add monthly activities</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="link_to_strava_monthly_activities">Link to Strava monthly activities</string>
+    <string name="add_activities">Add Activities</string>
+    <string name="create_athlete_profile">Create athlete profile:</string>
+    <string name="example">Example:</string>
+    <string name="url_example">Url example:</string>
+    <string name="monthly_activities_url_example">https://www.strava.com/athletes/26934035#interval?interval=202204&amp;interval_type=month&amp;chart_type=miles&amp;year_offset=0</string>
+    <string name="select_a_profile">Select a profile:</string>
 
 
 </resources>

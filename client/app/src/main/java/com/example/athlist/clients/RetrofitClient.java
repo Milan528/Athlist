@@ -6,10 +6,12 @@ import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.interfaces.IConnectToStravaCallback;
 import com.example.athlist.interfaces.IRetrofitAPI;
 import com.example.athlist.interfaces.IRetrofitClient;
+import com.example.athlist.interfaces.IScrapeMonthlyActivitiesCallback;
 import com.example.athlist.interfaces.IScrapeUserDataCallback;
 import com.example.athlist.models.MessageFromServer;
 import com.example.athlist.models.StravaProfile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -80,6 +82,7 @@ public class RetrofitClient implements IRetrofitClient {
     public void scrapeUserData(String uid, IScrapeUserDataCallback callback) {
         HashMap<String, String> map=new HashMap<>();
         map.put("uid",uid);
+
         Call<MessageFromServer> call=mRetrofitAPI.scrapeUserData(map);
         call.enqueue(new Callback<MessageFromServer>() {
             @Override
@@ -102,6 +105,36 @@ public class RetrofitClient implements IRetrofitClient {
             @Override
             public void onFailure(Call<MessageFromServer> call, Throwable t) {
                 callback.scrapeUserDataFail(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void scrapeMonthlyActivities(String uid, String monthlyLink,IScrapeMonthlyActivitiesCallback callback) {
+        HashMap<String, String> map=new HashMap<>();
+        map.put("uid",uid);
+        map.put("link",monthlyLink);
+        Call<MessageFromServer> call=mRetrofitAPI.scrapeMonthlyActivities(map);
+        call.enqueue(new Callback<MessageFromServer>() {
+            @Override
+            public void onResponse(Call<MessageFromServer> call, Response<MessageFromServer> response) {
+                if(!response.isSuccessful()){
+                    callback.scrapeUserMonthlyActivitiesFail("Response was not successful");
+
+                }else{
+                    MessageFromServer msg = response.body();
+                    if(response.code()==200){
+                        callback.scrapeUserMonthlyActivitiesSuccess(msg.getMessage(),msg.getActivities());
+                    }else if(response.code()==500){
+                        callback.scrapeUserMonthlyActivitiesFail(msg.getMessage());
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageFromServer> call, Throwable t) {
+                callback.scrapeUserMonthlyActivitiesFail(t.getMessage());
             }
         });
     }

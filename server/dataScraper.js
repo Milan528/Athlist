@@ -3,7 +3,7 @@ const pluginStealth = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(pluginStealth());
 const fs = require('fs');
 const {strava_login_url} = require("./stravaUrls.js")
-const { extractDateFromString } = require("./stringFunctions.js")
+
 
 
 async function scrapeUserData(uid) {
@@ -85,7 +85,7 @@ async function scrapeUserActivities(page) {
     return filteredArray
 }
 
-async function scrapeUserRunActivity(link,uid){
+async function scrapeUserRunActivity(monthlyActivityLink,uid){
         const cookiesString = fs.readFileSync(uid+'_strava-cookies-session.json', 'utf8');
         const cookies = JSON.parse(cookiesString);
 
@@ -96,7 +96,7 @@ async function scrapeUserRunActivity(link,uid){
         const browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
         await page.setCookie.apply(page, cookies);
-        await page.goto(link, {waitUntil: 'load'});
+        await page.goto(monthlyActivityLink, {waitUntil: 'load'});
 
 
         const data = await page.evaluate(() => {
@@ -112,51 +112,6 @@ async function scrapeUserRunActivity(link,uid){
             return dictionary
         })
     
-    
-        // const lapsFlag = await  page.evaluate(() => {
-        //     const element = document.querySelectorAll(".pagenav li a")[2]
-        //     if(element==null){
-        //         return -1
-        //     }else
-        //      return 1  
-        // })
-    
-        // console.log("LAPS FLAG IS: "+lapsFlag)
-        // let laps=[]
-        // if(lapsFlag==1){
-        //     const lapsUrl = await page.evaluate(() => {
-        //         return document.querySelectorAll(".pagenav li a")[2].href
-        //     })
-        //     await page.goto(lapsUrl);
-        
-        //     await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-            
-        //     const tableSize = await page.evaluate(() => {
-        //         var table = document.querySelectorAll(".laps.marginless.padded-values tbody tr td")
-        //         return table.length
-        //     })
-        //     //console.log("Table size " + tableSize)
-        //     let rowsCount=Math.floor(tableSize/6)
-        //     //console.log("Laps count "+ rowsCount)
-    
-        //     for(let i=0;i<rowsCount;i++){
-    
-        //         let lap = await page.evaluate((i) => {
-        //         let rowData={}
-        //         rowData["lap"] = i+1
-        //         rowData["distance"] = document.querySelectorAll(".laps.marginless.padded-values tbody tr td")[i*6+1].textContent
-        //         rowData["time"] = document.querySelectorAll(".laps.marginless.padded-values tbody tr td")[i*6+2].textContent 
-        //         rowData["pace"] = document.querySelectorAll(".laps.marginless.padded-values tbody tr td")[i*6+3].textContent
-        //         rowData["elev"] = document.querySelectorAll(".laps.marginless.padded-values tbody tr td")[i*6+4].textContent
-        //         rowData["hr"] = document.querySelectorAll(".laps.marginless.padded-values tbody tr td")[i*6+5].textContent 
-        //         return rowData
-        //         },i)
-    
-        //         laps[i]=lap;
-        //     }
-    
-        // }
-        //  data["laps"]=laps
          data["type"]="Run"
          console.log(data)
     
@@ -165,17 +120,117 @@ async function scrapeUserRunActivity(link,uid){
 }
 
 
+async function scrapeMonthlyActivities(uid,monthlyLink) {
+    let response={
+        status:200,
+        message: "Downloaded activities",
+        activities: []
+    }
+    //fali try catch
+    const cookiesString = fs.readFileSync(uid+'_strava-cookies-session.json', 'utf8');
+    const cookies = JSON.parse(cookiesString);
 
-module.exports={scrapeUserData,scrapeUserRunActivity}
+    process.on('unhandledRejection', (reason, p) => {
+	console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    response.status=500
+    response.message='Unhandled Rejection at: Promise' + reason
+    });
 
 
+
+    if(response.status!=200) return response
+
+    try{
+        const browser = await puppeteer.launch({ headless: false });
+        const page = await browser.newPage();
+        await page.setCookie.apply(page, cookies);
+        await page.goto(monthlyLink, {waitUntil: 'load'})
+        try {
+            await page.waitForNavigation({ timeout: 10000 })
+          } catch (e) {
+              console.log("Navigation 8 sec passed")
+          }
+
+        response.activities = await getAthletePosts(page,cookies,browser)
+        browser.close()
+    }
+    catch(error){
+        console.log(error)
+        response.status=500
+        response.message=error
+    }
+    //console.log(response.activities)
+    return response
+   
+}
+
+
+async function getAthletePosts(page,cookies,browser){
+
+ const postLinks = await page.$$eval(".MediaBody--media-body--uT-hq h3 a", (posts) => { 
+    let linksArray=[]
+    posts.forEach(post=>{
+        if(post.textContent.includes("Run") || post.textContent.includes("run")){
+            linksArray.push(post.href)
+    }  
+        })
+            return linksArray     
+    })
+
+    console.log("LINKS:")
+    console.log(postLinks.length)
+    let postsData=[]
+    let data
+   
+    
+    for(const link of postLinks){
+        data = await getPostData(link,cookies,browser)
+        postsData.push(data)
+    }
+
+    return postsData
+}
+
+
+async function getPostData(link,cookies,browser){
+
+    console.log("Getting post data for "+link)
+    const page = await browser.newPage();
+    await page.setCookie.apply(page, cookies);
+    await page.goto(link, {waitUntil: 'load'});
+
+    const data = await page.evaluate(async () => {
+        function getElementTextContent(selector, index=0){
+            let el = document.querySelectorAll(selector)[index]
+            return el? el.textContent : ""
+        }
+
+        var dictionary = {};
+
+
+        dictionary["title"] = getElementTextContent(".text-title1.marginless.activity-name")
+        dictionary["distance"] = getElementTextContent(".inline-stats li strong",0)
+        dictionary["movingTime"] = getElementTextContent(".inline-stats li strong",1)
+        dictionary["pace"] = getElementTextContent(".inline-stats.section li strong",2)
+        dictionary["elevation"] = getElementTextContent(".spans3")
+        dictionary["calories"] = getElementTextContent(".spans3",1)
+        dictionary["elapsedTime"] = getElementTextContent(".spans3",2)
+        dictionary["date"] = getElementTextContent(".details > time")
+       
+        return dictionary
+    })
+
+    data["type"]="Run"
+    page.close()
+    return data
+}
+
+
+module.exports={scrapeUserData,scrapeMonthlyActivities}
+//11 postova za minut
+//46 za 3 minuta            https://www.strava.com/athletes/26934035#interval?interval=202106&interval_type=month&chart_type=miles&year_offset=0
+//scrapeMonthlyActivities("8MMCH0Cc5tWUWyl6GmukrQfzk993","https://www.strava.com/athletes/26934035#interval?interval=202108&interval_type=month&chart_type=miles&year_offset=0")
 //scrapeUserData("8MMCH0Cc5tWUWyl6GmukrQfzk993")
 //scrapeUserRunActivity("https://www.strava.com/activities/7205067652","28051997")
 
 
-/*
- const posts = await page.$$eval(".a-title a", (articles) => { //selector is first parameter 
-            return articles.map(x => x.href) //src is web address of image
-            // return articles.map(x => x.textContent) //src is web address of image
-        })
-*/

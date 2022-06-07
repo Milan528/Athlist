@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Athlist"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.AddAthleteActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.StravaActivitiesActivity"
             android:exported="false" />
         <activity

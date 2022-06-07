@@ -13,8 +13,8 @@ public class User {
     private String phoneNumber;
     private String username;
     private List<ProfileInformationElements> additionalInformation;
-    //private boolean connectedToStrava;
     private StravaConnectionStatus connectionStatus;
+    private List<AthleteEntry> athleteProfiles;
 
     @Exclude
     private StravaProfile stravaProfile;
@@ -69,13 +69,14 @@ public class User {
         this.connectionStatus = connectionStatus;
     }
 
-//    public boolean getConnectedToStrava() {
-//        return connectedToStrava;
-//    }
-//
-//    public void setConnectedToStrava(boolean connectedToStrava) {
-//        this.connectedToStrava = connectedToStrava;
-//    }
+    public List<AthleteEntry> getAthleteProfiles() {
+        return athleteProfiles;
+    }
+
+    public void setAthleteProfiles(List<AthleteEntry> athleteEntries) {
+        this.athleteProfiles = athleteEntries;
+    }
+
 
     @Exclude
     public String getUserID() {
@@ -108,5 +109,21 @@ public class User {
     @Exclude
     public void setStravaProfile(StravaProfile stravaProfile) {
         this.stravaProfile = stravaProfile;
+    }
+
+    @Exclude
+    public void addAthleteProfile(String entryName, StravaMonthlyActivities monthlyActivity) {
+        AthleteEntry newEntry=new AthleteEntry();
+        newEntry.setEntryName(entryName);
+        if(athleteProfiles.contains(newEntry)){
+            for(AthleteEntry entry:athleteProfiles){
+                if(entry.getEntryName().equals(entryName)){
+                    entry.addMonthlyActivity(monthlyActivity);
+                }
+            }
+        }else{
+            newEntry.addMonthlyActivity(monthlyActivity);
+            athleteProfiles.add(newEntry);
+        }
     }
 }

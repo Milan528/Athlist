@@ -9,11 +9,13 @@
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_add_link.xml" value="0.21796875" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_avatar.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_baseline_person_outline_primary.xml" value="0.21796875" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_calendar_month.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_email.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_email_2.xml" value="0.11981981981981982" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_info.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_local_activity.xml" value="0.21796875" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_lock24.xml" value="0.290625" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_add_alt_1.xml" value="0.21796875" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_pin.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_pin_2.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_phone.xml" value="0.290625" />
@@ -22,9 +24,11 @@
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rouded_corners_white_background.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/round_border.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/round_border_purple_700.xml" value="0.290625" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/round_border_teal.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rounded_corners_white_background.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rounded_top_border.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout-v26/activity_home_page.xml" value="0.27447916666666666" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_add_athlete.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_connect_to_strava.xml" value="0.205859375" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_home_page.xml" value="0.176" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_login.xml" value="0.264" />

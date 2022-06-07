@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.athlist.R;
 import com.example.athlist.clients.AppClient;
 import com.example.athlist.dialogs.LoadingDialog;
+import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -27,7 +28,7 @@ import java.util.Date;
 
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView;
+    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView,addAthleteCardView;
     RoundedImageView profileImage;
     TextView welcomeTextView, todaysDateTextView;
 
@@ -52,11 +53,13 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         profileImage=findViewById(R.id.home_page_imageViewProfile);
         welcomeTextView=findViewById(R.id.home_page_welcome_textView);
         todaysDateTextView=findViewById(R.id.home_page_todaysDate_textView);
+        addAthleteCardView=findViewById(R.id.home_page_addAthlete_cardView);
 
         profileImage.setImageBitmap(AppClient.getInstance().getLoggedUser().getProfilePhoto());
         profileCardView.setOnClickListener(this);
         connectToStravaCardView.setOnClickListener(this);
         viewActivitiesCardView.setOnClickListener(this);
+        addAthleteCardView.setOnClickListener(this);
     }
 
     @Override
@@ -71,6 +74,13 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         }else if(clickedId==R.id.home_page_viewActivities_cardView) {
             Intent intent = new Intent(this, StravaActivitiesActivity.class);
             startActivity(intent);
+        }else if(clickedId==R.id.home_page_addAthlete_cardView) {
+            if(AppClient.getInstance().getLoggedUser().getConnectionStatus()== StravaConnectionStatus.CONNECTED) {
+                Intent intent = new Intent(this, AddAthleteActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this,"You need to connect to Strava before adding athletes",Toast.LENGTH_LONG).show();
+            }
         }
 
     }

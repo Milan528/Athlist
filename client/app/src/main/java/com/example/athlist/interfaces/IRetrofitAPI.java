@@ -16,4 +16,7 @@ public interface IRetrofitAPI {
 
     @POST("/scrapeUserData")
     Call<MessageFromServer> scrapeUserData(@Body HashMap<String, String> map);
+
+    @POST("/scrapeMonthlyActivities")
+    Call<MessageFromServer> scrapeMonthlyActivities(@Body HashMap<String, String> map);
 }

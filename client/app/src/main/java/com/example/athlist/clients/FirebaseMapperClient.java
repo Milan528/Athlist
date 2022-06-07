@@ -86,6 +86,8 @@ public class FirebaseMapperClient extends MyFirebaseClient{
 
                 if(user.getAdditionalInformation()==null)
                     user.setAdditionalInformation(new ArrayList<>());
+                if(user.getAthleteProfiles()==null)
+                    user.setAthleteProfiles(new ArrayList<>());
 
 
                 AppClient.getInstance().setLoggedUser(user);

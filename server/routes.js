@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { scrapeUserData,scrapeUserRunActivity } = require("./dataScraper.js")
+const { scrapeUserData,scrapeMonthlyActivities } = require("./dataScraper.js")
 const { connectToStrava } = require("./cookiesScraper.js")
 const router = express();
 router.use(cors());
@@ -22,6 +22,12 @@ router.post("/scrapeUserData", async(req, res) =>{
 router.post("/scrapeUserRunActivity", async(req, res) =>{
     const data = await scrapeUserRunActivity(req.body.link,req.body.uid)
     res.send(data)
+})
+
+
+router.post("/scrapeMonthlyActivities", async(req, res) =>{
+    const data = await scrapeMonthlyActivities(req.body.uid,req.body.link)
+    res.status(data.status).send(JSON.stringify(data))
 })
 
 router.listen(4000, () => {

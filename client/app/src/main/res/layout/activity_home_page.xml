@@ -134,6 +134,7 @@
                <com.makeramen.roundedimageview.RoundedImageView
                    android:layout_width="80sp"
                    android:layout_height="80sp"
+                   android:scaleType="centerCrop"
                    app:riv_corner_radius="12sp"
                    android:src="@drawable/ic_person_pin"/>
                <TextView
@@ -146,6 +147,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/home_page_addAthlete_cardView"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_columnWeight="1"
@@ -163,7 +165,8 @@
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     app:riv_corner_radius="12sp"
-                    android:src="@drawable/profile_default"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person_add_alt_1"/>
                 <TextView
                     android:textSize="15sp"
                     android:textAlignment="center"
@@ -192,6 +195,7 @@
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     app:riv_corner_radius="12sp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_add_link"/>
                 <TextView
                     android:textSize="15sp"
@@ -221,6 +225,7 @@
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     app:riv_corner_radius="12sp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_local_activity"/>
                 <TextView
                     android:textSize="15sp"

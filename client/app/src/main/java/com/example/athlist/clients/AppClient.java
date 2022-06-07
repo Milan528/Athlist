@@ -9,6 +9,7 @@ import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
 import com.example.athlist.interfaces.ILoginUserCallback;
 import com.example.athlist.interfaces.IRecoverPasswordCallback;
 import com.example.athlist.interfaces.IRetrofitClient;
+import com.example.athlist.interfaces.IScrapeMonthlyActivitiesCallback;
 import com.example.athlist.interfaces.IScrapeUserDataCallback;
 import com.example.athlist.interfaces.IUserRegistrationCallback;
 import com.example.athlist.models.User;
@@ -33,6 +34,10 @@ public class AppClient {
 
     public void scrapeUserData(String uid, IScrapeUserDataCallback callback){
         retrofitClient.scrapeUserData(uid,callback);
+    }
+
+    public void scrapeMonthlyActivities(String uid, String monthlyLink, IScrapeMonthlyActivitiesCallback callback) {
+        retrofitClient.scrapeMonthlyActivities(uid,monthlyLink,callback);
     }
 
     public User getLoggedUser() {

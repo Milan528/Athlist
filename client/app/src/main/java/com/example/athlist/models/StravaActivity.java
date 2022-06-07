@@ -4,12 +4,46 @@ public class StravaActivity {
     private String type;
     private String date;
     private String title;
-    private String time;
     private String distance;
     private String elevation;
-    private String link;
+    private String movingTime;
+    private String elapsedTime;
+    private String calories;
+    private String pace;
 
     public StravaActivity() { }
+
+    public String getPace() {
+        return pace;
+    }
+
+    public void setPace(String pace) {
+        this.pace = pace;
+    }
+
+    public String getCalories() {
+        return calories;
+    }
+
+    public void setCalories(String calories) {
+        this.calories = calories;
+    }
+
+    public String getMovingTime() {
+        return movingTime;
+    }
+
+    public void setMovingTime(String movingTime) {
+        this.movingTime = movingTime;
+    }
+
+    public String getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(String elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
 
     public String getType() {
         return type;
@@ -35,13 +69,6 @@ public class StravaActivity {
         this.title = title;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getDistance() {
         return distance;
@@ -59,11 +86,4 @@ public class StravaActivity {
         this.elevation = elevation;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
 }
