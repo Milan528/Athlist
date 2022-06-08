@@ -15,6 +15,7 @@
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_info.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_local_activity.xml" value="0.21796875" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_lock24.xml" value="0.290625" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_pageview.xml" value="0.17083333333333334" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_add_alt_1.xml" value="0.21796875" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_pin.xml" value="0.290625" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/ic_person_pin_2.xml" value="0.25135135135135134" />
@@ -29,13 +30,14 @@
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/drawable/rounded_top_border.xml" value="0.25135135135135134" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout-v26/activity_home_page.xml" value="0.27447916666666666" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_add_athlete.xml" value="0.264" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_advanced_view.xml" value="0.1546875" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_connect_to_strava.xml" value="0.205859375" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_home_page.xml" value="0.176" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_my_profile.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_register.xml" value="0.2604166666666667" />
-        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_strava_activities.xml" value="0.1953125" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/activity_strava_activities.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/bar_chart_view.xml" value="0.205859375" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/calendar_cell.xml" value="0.1953125" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/calendar_layout.xml" value="0.1953125" />

@@ -88,7 +88,7 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
 
     private boolean compareDates(String holderDate, String activityDate) throws ParseException {
         Date holder=new SimpleDateFormat("dd/MMMM/yyyy").parse(holderDate);
-        Date act=new SimpleDateFormat("EEE, MM/dd/yyyy").parse(activityDate);
+        Date act=new SimpleDateFormat("\nEEEE, MMMM d, yyyy\n").parse(activityDate);
 
 
         if(holder.compareTo(act)==0){

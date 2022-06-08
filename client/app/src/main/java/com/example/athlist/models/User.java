@@ -126,4 +126,24 @@ public class User {
             athleteProfiles.add(newEntry);
         }
     }
+
+    @Exclude
+    public ArrayList<StravaActivity> getActivitiesForEntry(String entryName){
+        AthleteEntry entry=new AthleteEntry();
+        entry.setEntryName(entryName);
+        ArrayList<StravaActivity> activities=new ArrayList<>();
+        if(athleteProfiles!=null && athleteProfiles.contains(entry)){
+            for(AthleteEntry athleteEntry:athleteProfiles){
+                if(athleteEntry.getEntryName().equals(entryName)){
+                    entry=athleteEntry;
+                }
+            }
+          if(entry.getActivities()!=null && entry.getActivities().size()>0) {
+              for (StravaMonthlyActivities monthlyActivity : entry.getActivities()) {
+                  activities.addAll(monthlyActivity.getMonthlyActivities());
+              }
+          }
+        }
+        return activities;
+    }
 }

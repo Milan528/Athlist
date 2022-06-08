@@ -28,7 +28,7 @@ import java.util.Date;
 
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView,addAthleteCardView;
+    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView,addAthleteCardView,advancedViewCardView;
     RoundedImageView profileImage;
     TextView welcomeTextView, todaysDateTextView;
 
@@ -54,12 +54,14 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         welcomeTextView=findViewById(R.id.home_page_welcome_textView);
         todaysDateTextView=findViewById(R.id.home_page_todaysDate_textView);
         addAthleteCardView=findViewById(R.id.home_page_addAthlete_cardView);
+        advancedViewCardView=findViewById(R.id.home_page_advancedView_cardView);
 
         profileImage.setImageBitmap(AppClient.getInstance().getLoggedUser().getProfilePhoto());
         profileCardView.setOnClickListener(this);
         connectToStravaCardView.setOnClickListener(this);
         viewActivitiesCardView.setOnClickListener(this);
         addAthleteCardView.setOnClickListener(this);
+        advancedViewCardView.setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +83,9 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             }else{
                 Toast.makeText(this,"You need to connect to Strava before adding athletes",Toast.LENGTH_LONG).show();
             }
+        }else if(clickedId==R.id.home_page_advancedView_cardView){
+            Intent intent = new Intent(this, AdvancedViewActivity.class);
+            startActivity(intent);
         }
 
     }

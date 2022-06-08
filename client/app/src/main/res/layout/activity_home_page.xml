@@ -245,6 +245,7 @@
             app:cardCornerRadius="12sp"
             android:layout_margin="12sp">
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/home_page_advancedView_cardView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -254,13 +255,15 @@
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     app:riv_corner_radius="12sp"
-                    android:src="@drawable/profile_default"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_pageview"/>
                 <TextView
                     android:textSize="15sp"
                     android:layout_marginTop="12sp"
+                    android:textAlignment="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/test"/>
+                    android:text="@string/advanced_view"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView

@@ -58,6 +58,7 @@
     <string name="url_example">Url example:</string>
     <string name="monthly_activities_url_example">https://www.strava.com/athletes/26934035#interval?interval=202204&amp;interval_type=month&amp;chart_type=miles&amp;year_offset=0</string>
     <string name="select_a_profile">Select a profile:</string>
+    <string name="advanced_view">Advanced View</string>
 
 
 </resources>
