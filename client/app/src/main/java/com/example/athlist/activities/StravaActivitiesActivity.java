@@ -40,7 +40,7 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
     List<StravaActivity> stravaActivityList;
     List<String> athleteProfiles;
     MyCustomCalendar customCalendar;
-    Button btnPreviousMonth,btnNextMonth,btnFilters;
+    Button btnPreviousMonth,btnNextMonth,btnSave,btnDelete;
     Spinner spinnerAthleteProfiles;
     RecyclerView recyclerViewCalendar;
     TextView textViewMonthYear;
@@ -64,15 +64,18 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
         btnPreviousMonth=(Button)findViewById(R.id.buttonPreviousMonth);
         calendarLinearLayout=findViewById(R.id.layoutCalendar);
         daysOfWeekLinearLayout=findViewById(R.id.calendar_layout_daysOfWeek);
-        btnFilters=findViewById(R.id.strava_activities_page_filters_button);
         spinnerAthleteProfiles=findViewById(R.id.strava_activities_page_spinnerAthleteProfiles);
+        btnSave=findViewById(R.id.strava_activities_page_saveProfile_button);
+        btnDelete=findViewById(R.id.strava_activities_page_removeProfile_button);
 
         customCalendar=new MyCustomCalendar();
         stravaActivityList=new ArrayList<>();
 
         btnPreviousMonth.setOnClickListener(this);
         btnNextMonth.setOnClickListener(this);
-        btnFilters.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
+
         spinnerAthleteProfiles.setOnItemSelectedListener(this);
     }
 
@@ -93,8 +96,29 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
         }else if(clickedId==R.id.buttonNextMonth){
             customCalendar.setSelectedDate(customCalendar.getSelectedDate().plusMonths(1));
             setMonthView();
-        }else if(clickedId==R.id.strava_activities_page_filters_button){
-            openFiltersPage();
+        }else if(clickedId==R.id.strava_activities_page_saveProfile_button){
+            saveProfile();
+        }else if(clickedId==R.id.strava_activities_page_removeProfile_button){
+            deleteProfile();
+        }
+    }
+
+    private void deleteProfile() {
+        if(spinnerAthleteProfiles.getSelectedItem().toString().isEmpty()){
+            Toast.makeText(this, "Select a profile!", Toast.LENGTH_SHORT).show();
+        }else{
+            String profileName=spinnerAthleteProfiles.getSelectedItem().toString();
+            AppClient.getInstance().deleteAthleteEntry(profileName);
+            createSpinnerChoices();
+        }
+    }
+
+    private void saveProfile() {
+        if(spinnerAthleteProfiles.getSelectedItem().toString().isEmpty()){
+            Toast.makeText(this, "Select a profile!", Toast.LENGTH_SHORT).show();
+        }else{
+            String profileName=spinnerAthleteProfiles.getSelectedItem().toString();
+            AppClient.getInstance().saveAthleteEntry(profileName);
         }
     }
 

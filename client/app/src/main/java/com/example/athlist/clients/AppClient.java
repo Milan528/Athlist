@@ -12,6 +12,7 @@ import com.example.athlist.interfaces.IRetrofitClient;
 import com.example.athlist.interfaces.IScrapeMonthlyActivitiesCallback;
 import com.example.athlist.interfaces.IScrapeUserDataCallback;
 import com.example.athlist.interfaces.IUserRegistrationCallback;
+import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.User;
 
 import java.util.HashMap;
@@ -86,6 +87,21 @@ public class AppClient {
     public void updateStravaConnectionStatus(StravaConnectionStatus status) {
         loggedUser.setConnectionStatus(status);
         firebaseMapperClient.writeConnectionStatus(loggedUser.getUserID(),status);
+    }
+
+    public void saveAthleteEntry(String profileName) {
+        AthleteEntry entry=loggedUser.getAthleteEntryByName(profileName);
+        if(entry!=null){
+            firebaseMapperClient.saveAthleteEntry(loggedUser.getUserID(),entry);
+        }
+    }
+
+    public void deleteAthleteEntry(String profileName) {
+        AthleteEntry entry=loggedUser.getAthleteEntryByName(profileName);
+        if(entry!=null){
+            firebaseMapperClient.deleteAthleteEntry(loggedUser.getUserID(),entry);
+            loggedUser.removeAthleteEntryByName(profileName);
+        }
     }
 
 

@@ -5,18 +5,16 @@ import com.google.firebase.database.Exclude;
 import java.util.ArrayList;
 
 public class StravaMonthlyActivities {
-    @Exclude
     private String monthYear;
-
     private ArrayList<StravaActivity> monthlyActivities;
 
     public StravaMonthlyActivities() { }
 
-    @Exclude
+
     public String getMonthYear() {
         return monthYear;
     }
-    @Exclude
+
     public void setMonthYear(String monthYear) {
         this.monthYear = monthYear;
     }

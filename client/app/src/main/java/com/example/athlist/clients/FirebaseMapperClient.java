@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.example.athlist.R;
 import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
+import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -89,6 +90,10 @@ public class FirebaseMapperClient extends MyFirebaseClient{
                 if(user.getAthleteProfiles()==null)
                     user.setAthleteProfiles(new ArrayList<>());
 
+                for (DataSnapshot child : snapshot.child("athleteProfiles").getChildren()){
+                    AthleteEntry athleteEntry=child.getValue(AthleteEntry.class);
+                    user.getAthleteProfiles().add(athleteEntry);
+                }
 
                 AppClient.getInstance().setLoggedUser(user);
                 databaseUserReference.child(userID).removeEventListener(this);
@@ -168,4 +173,14 @@ public class FirebaseMapperClient extends MyFirebaseClient{
     public void writeConnectionStatus(String userID, StravaConnectionStatus status) {
         databaseUserReference.child(userID).child("connectionStatus").setValue(status);
     }
+
+    public void saveAthleteEntry(String uid, AthleteEntry entry) {
+        databaseUserReference.child(uid).child("athleteProfiles").child(entry.getEntryName()).setValue(entry);
+    }
+
+    public void deleteAthleteEntry(String uid, AthleteEntry entry) {
+        databaseUserReference.child(uid).child("athleteProfiles").child(entry.getEntryName()).removeValue();
+    }
+
+
 }

@@ -6,19 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".activities.StravaActivitiesActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       app:layout_constraintGuide_percent="0.5" />
 
-        <LinearLayout
-            android:id="@+id/layoutCalendar"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-         <include layout="@layout/calendar_layout"/>
+    <LinearLayout
+        android:id="@+id/layoutCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/calendar_layout" />
 
 
-        </LinearLayout>
+    </LinearLayout>
 
 
     <TextView
@@ -26,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8sp"
-        android:text="Athlete Profiles:"
+        android:text="@string/athlete_profiles"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,51 +43,63 @@
         android:id="@+id/strava_activities_page_spinnerAthleteProfiles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="5sp"
         android:layout_marginLeft="8sp"
+        android:padding="5sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/layoutCalendar" />
 
+
+    <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+    <!--        android:id="@+id/linearLayoutCompat"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="10sp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:padding="8sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+
     <Button
-        android:id="@+id/strava_activities_page_filters_button"
+        android:id="@+id/strava_activities_page_saveProfile_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_border_purple_700"
-        android:text="@string/filters"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:layout_marginBottom="10sp"
+        android:background="@drawable/round_button_teal_background"
+        android:text="@string/save"
+        android:layout_marginRight="10sp"
+        android:layout_marginBottom="8sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline44" />
 
-    <!--    <com.makeramen.roundedimageview.RoundedImageView-->
-<!--        android:id="@+id/strava_activities_page_upDownArrow_imageView"-->
-<!--        android:layout_width="40sp"-->
-<!--        android:layout_height="40sp"-->
-<!--        android:padding="5sp"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@drawable/ic_keyboard_arrow_up"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/layoutCalendar" />-->
-
-
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/strava_activities_page_charts_recyclerView"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_marginTop="8sp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/strava_activities_page_upDownArrow_imageView"/>-->
+    <Button
+        android:id="@+id/strava_activities_page_removeProfile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_button_red_background"
+        android:text="@string/delete"
+        android:layout_marginLeft="10sp"
+        android:layout_marginBottom="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline44" />
 
 
 
 
+    <!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
+
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/strava_activities_page_charts_recyclerView"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            android:layout_marginTop="8sp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/strava_activities_page_upDownArrow_imageView"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,8 +14,9 @@ public class User {
     private String username;
     private List<ProfileInformationElements> additionalInformation;
     private StravaConnectionStatus connectionStatus;
-    private List<AthleteEntry> athleteProfiles;
 
+    @Exclude
+    private List<AthleteEntry> athleteProfiles;
     @Exclude
     private StravaProfile stravaProfile;
     @Exclude
@@ -69,10 +70,11 @@ public class User {
         this.connectionStatus = connectionStatus;
     }
 
+    @Exclude
     public List<AthleteEntry> getAthleteProfiles() {
         return athleteProfiles;
     }
-
+    @Exclude
     public void setAthleteProfiles(List<AthleteEntry> athleteEntries) {
         this.athleteProfiles = athleteEntries;
     }
@@ -145,5 +147,24 @@ public class User {
           }
         }
         return activities;
+    }
+
+    @Exclude
+    public AthleteEntry getAthleteEntryByName(String name){
+        AthleteEntry entry=new AthleteEntry();
+        entry.setEntryName(name);
+        if(athleteProfiles.contains(entry)){
+            for(AthleteEntry e : athleteProfiles){
+                if (e.getEntryName().equals(name))
+                    return e;
+            }
+        }
+        return null;
+    }
+
+    public void removeAthleteEntryByName(String name) {
+        AthleteEntry entry=new AthleteEntry();
+        entry.setEntryName(name);
+       athleteProfiles.remove(entry);
     }
 }
