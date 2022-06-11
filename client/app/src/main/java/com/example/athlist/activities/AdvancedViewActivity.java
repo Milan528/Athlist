@@ -2,8 +2,6 @@ package com.example.athlist.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.app.DatePickerDialog;
 import android.content.res.Configuration;
@@ -15,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,20 +22,22 @@ import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.StravaActivity;
 import com.example.athlist.models.StravaMonthlyActivities;
 import com.example.athlist.models.StravaWeeklyActivities;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.lang.reflect.Array;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 import java.util.Locale;
 
 public class AdvancedViewActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
@@ -247,8 +246,9 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
 
         }
 
-        String isItGood="OK";//crtanje tabele!
+        createTableWeeklyData(filteredActivities);
     }
+
 
     private void filterActivitiesByMonth(ArrayList<StravaActivity> activities, String startDate, String endDate) throws ParseException {
         ArrayList<StravaMonthlyActivities> filteredActivities=new ArrayList<>();
@@ -258,7 +258,6 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
         start=LocalDate.parse(startDate, formatter1);
         end=LocalDate.parse(endDate,formatter1);
         YearMonth yearMonth;
-        String year;
         StravaMonthlyActivities entry;
         for(StravaActivity activity : activities){
             testDate=LocalDate.parse(activity.getDate(),formatter2);
@@ -284,7 +283,7 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
                 }
             }
         }
-        String isItGood="OK";//crtanje tabele!
+        createTableMonthYearData(filteredActivities,"Month");
     }
 
     private void filterActivitiesByYear(ArrayList<StravaActivity> activities, String startDate, String endDate) throws ParseException {
@@ -322,7 +321,144 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
                 }
             }
         }
-        String isItGood="OK";//crtanje tabele!
+        createTableMonthYearData(filteredActivities,"Year");
+    }
+    private void createTableWeeklyData(ArrayList<StravaWeeklyActivities> filteredActivities) {
+        ArrayList<String> headers=new ArrayList<>();
+        headers.add("Segment");
+        headers.add("Runs");
+        headers.add("Distance");
+        headers.add("Moving time");
+        headers.add("Elapsed time");
+        headers.add("Calories per run");
+        headers.add("Average Pace");
+        ArrayList<String[][]> rows=new ArrayList<>();
+        String[][] rowData=new String[filteredActivities.size()][headers.size()];
+        int runs,distance,pace,calories;
+        long movingTM,elapsedTM;
+        String myPace;
+        int index=0;
+        for(StravaWeeklyActivities weeklyActivity : filteredActivities){
+            index++;
+            calories=0;
+            runs=0;
+            distance=0;
+            movingTM=0;
+            elapsedTM=0;
+            for(StravaActivity activity : weeklyActivity.getWeeklyActivities()){
+                if(!activity.getCalories().isEmpty()) {
+                    runs++;
+                    calories += Integer.parseInt(activity.getCalories());
+                    distance += Float.parseFloat(activity.getDistance().replace("km",""));
+                    movingTM = getTimeInSeconds(activity.getMovingTime());
+                    elapsedTM = getTimeInSeconds(activity.getElapsedTime());
+                }
+            }
+            pace=(int)(movingTM/distance);
+            myPace=getTimeStringFromSeconds(pace)+"/km";
+            rowData[index] = new String[]{weeklyActivity.getTag()+"\n"+weeklyActivity.getWeekStart()+"--"+weeklyActivity.getWeekEnd(),
+                    String.valueOf(runs),
+                    String.valueOf(distance),
+                    getTimeStringFromSeconds(movingTM),
+                    getTimeStringFromSeconds(elapsedTM),
+                    String.valueOf(calories),
+                    myPace
+            };
+
+        }
+        rows.add(rowData);
+        createTableAdapter(headers,rows);
+    }
+
+
+    private void createTableMonthYearData(ArrayList<StravaMonthlyActivities> filteredActivities,String type) {
+        ArrayList<String> headers=new ArrayList<>();
+        headers.add("Segment");
+        headers.add("Runs");
+        headers.add("Distance");
+        headers.add("Moving time");
+        headers.add("Elapsed time");
+        headers.add("Calories per run");
+        headers.add("Average Pace");
+        ArrayList<String[][]> rows=new ArrayList<>();
+        String[][] rowData=new String[filteredActivities.size()][headers.size()];
+        int runs,pace,calories;
+        long movingTM,elapsedTM;
+        float distance;
+        String myPace,tag;
+        int index=0;
+        for(StravaMonthlyActivities monthlyActivity : filteredActivities){
+            calories=0;
+            runs=0;
+            distance=0;
+            movingTM=0;
+            elapsedTM=0;
+            for(StravaActivity activity : monthlyActivity.getMonthlyActivities()){
+                if(!activity.getCalories().isEmpty()) {
+                    runs++;
+                    calories += Integer.parseInt(activity.getCalories().replace("\n", "").replace("\r", "").replace(",",""));
+                    distance += Float.parseFloat(activity.getDistance().replace("km","").replace("\n", "").replace("\r", ""));
+                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
+                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
+                }
+            }
+            pace=(int)(movingTM/distance);
+            myPace=getTimeStringFromSeconds(pace)+"/km";
+            if(type.equals("Year")) {
+                tag = monthlyActivity.getMonthYear();
+            }else{
+                String monthYear=monthlyActivity.getMonthYear();
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM");
+                YearMonth date = YearMonth.parse(monthYear, dateTimeFormatter);
+                tag=date.getMonth().getDisplayName(TextStyle.SHORT,Locale.US)+" "+date.getYear();
+            }
+
+            rowData[index] = new String[]{tag,
+                    Integer.toString(runs),
+                    Float.toString(distance),
+                    getTimeStringFromSeconds(movingTM),
+                    getTimeStringFromSeconds(elapsedTM),
+                    Integer.toString(calories),
+                    myPace
+            };
+            index++;
+        }
+        rows.add(rowData);
+        createTableAdapter(headers,rows);
+    }
+
+    private void createTableAdapter(ArrayList<String> headers, ArrayList<String[][]> rows) {
+
+    }
+
+
+    private long getTimeInSeconds(String timeString){
+        long sumTime=0;
+        String[] times=timeString.split(":");
+        ArrayList<String> times2=new ArrayList<>();
+        Collections.addAll(times2,times);
+        if(times2.size()==2){
+            times2.add(0,"00");
+        }
+        sumTime += Integer.parseInt(times2.get(2));
+        sumTime += 60 * Integer.parseInt(times2.get(1));
+        sumTime += 3600 * Integer.parseInt(times2.get(0));
+
+        return sumTime;
+    }
+
+    private String getTimeStringFromSeconds(long seconds){
+        long hh = seconds / 3600;
+        seconds %= 3600;
+        long mm = seconds / 60;
+        seconds %= 60;
+        long ss = seconds;
+        return format(hh)+":"+format(mm)+":"+format(ss);
+    }
+
+    private static String format(long s){
+        if (s < 10) return "0" + s;
+        else return "" + s;
     }
 
     @Override
