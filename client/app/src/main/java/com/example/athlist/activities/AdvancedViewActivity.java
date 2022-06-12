@@ -2,8 +2,11 @@ package com.example.athlist.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -17,16 +20,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.athlist.R;
+import com.example.athlist.adapters.TableViewAdapter;
 import com.example.athlist.clients.AppClient;
 import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.StravaActivity;
 import com.example.athlist.models.StravaMonthlyActivities;
 import com.example.athlist.models.StravaWeeklyActivities;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.lang.reflect.Array;
 import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -50,7 +53,8 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
     ConstraintLayout filtersViewConstraintLayout;
     ArrayList<String> athleteProfiles,dataSegments;
     boolean filtersViewExpanded;
-
+    TableViewAdapter tableViewAdapter;
+    RecyclerView dataRecyclerVIew;
 
     DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -81,6 +85,7 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
         editTextStartDate=findViewById(R.id.advanced_view_page_start_date_editText);
         editTextEndDate=findViewById(R.id.advanced_view_page_end_date_editText);
         btnDisplay=findViewById(R.id.advanced_view_page_display_button);
+        dataRecyclerVIew=findViewById(R.id.advanced_view_page_displayData_recyclerView);
 
         filtersViewExpanded=true;
 
@@ -245,7 +250,7 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
             }
 
         }
-
+        filteredActivities.removeIf(weeklyActivity -> weeklyActivity.getWeeklyActivities() == null || weeklyActivity.getWeeklyActivities().size() == 0);
         createTableWeeklyData(filteredActivities);
     }
 
@@ -324,22 +329,16 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
         createTableMonthYearData(filteredActivities,"Year");
     }
     private void createTableWeeklyData(ArrayList<StravaWeeklyActivities> filteredActivities) {
-        ArrayList<String> headers=new ArrayList<>();
-        headers.add("Segment");
-        headers.add("Runs");
-        headers.add("Distance");
-        headers.add("Moving time");
-        headers.add("Elapsed time");
-        headers.add("Calories per run");
-        headers.add("Average Pace");
-        ArrayList<String[][]> rows=new ArrayList<>();
-        String[][] rowData=new String[filteredActivities.size()][headers.size()];
-        int runs,distance,pace,calories;
+        String[] headers={"Segment","Distance","MovingTime/\nElapsedTime","Calories","Pace"};
+        ArrayList<String[]> rows=new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
+        rows.add(headers);
+        String[] rowData={};
+        int runs,pace,calories;
         long movingTM,elapsedTM;
-        String myPace;
-        int index=0;
+        float distance;
+        String myPace,tag;
         for(StravaWeeklyActivities weeklyActivity : filteredActivities){
-            index++;
             calories=0;
             runs=0;
             distance=0;
@@ -348,45 +347,38 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
             for(StravaActivity activity : weeklyActivity.getWeeklyActivities()){
                 if(!activity.getCalories().isEmpty()) {
                     runs++;
-                    calories += Integer.parseInt(activity.getCalories());
-                    distance += Float.parseFloat(activity.getDistance().replace("km",""));
-                    movingTM = getTimeInSeconds(activity.getMovingTime());
-                    elapsedTM = getTimeInSeconds(activity.getElapsedTime());
+                    calories += Integer.parseInt(activity.getCalories().replace("\n", "").replace("\r", "").replace(",",""));
+                    distance += Float.parseFloat(activity.getDistance().replace("km","").replace("\n", "").replace("\r", ""));
+                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
+                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
                 }
             }
-            pace=(int)(movingTM/distance);
+            pace=Math.round(movingTM/distance);
             myPace=getTimeStringFromSeconds(pace)+"/km";
-            rowData[index] = new String[]{weeklyActivity.getTag()+"\n"+weeklyActivity.getWeekStart()+"--"+weeklyActivity.getWeekEnd(),
-                    String.valueOf(runs),
-                    String.valueOf(distance),
-                    getTimeStringFromSeconds(movingTM),
-                    getTimeStringFromSeconds(elapsedTM),
-                    String.valueOf(calories),
+            rowData = new String[]{weeklyActivity.getTag()+"\n"+weeklyActivity.getWeekStart().toString()+"\n"+weeklyActivity.getWeekEnd().toString(),
+//                    Integer.toString(runs),
+                    df.format(distance),
+                    getTimeStringFromSeconds(movingTM)+"\n"+ getTimeStringFromSeconds(elapsedTM),
+                    Integer.toString(calories),
                     myPace
             };
-
+            rows.add(rowData);
         }
-        rows.add(rowData);
-        createTableAdapter(headers,rows);
+
+        createTableAdapter(rows);
     }
 
 
     private void createTableMonthYearData(ArrayList<StravaMonthlyActivities> filteredActivities,String type) {
-        ArrayList<String> headers=new ArrayList<>();
-        headers.add("Segment");
-        headers.add("Runs");
-        headers.add("Distance");
-        headers.add("Moving time");
-        headers.add("Elapsed time");
-        headers.add("Calories per run");
-        headers.add("Average Pace");
-        ArrayList<String[][]> rows=new ArrayList<>();
-        String[][] rowData=new String[filteredActivities.size()][headers.size()];
+        String[] headers={"Segment","Distance","MovingTime/\nElapsedTime","Calories","Pace"};
+        ArrayList<String[]> rows=new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
+        rows.add(headers);
+        String[] rowData={};
         int runs,pace,calories;
         long movingTM,elapsedTM;
         float distance;
         String myPace,tag;
-        int index=0;
         for(StravaMonthlyActivities monthlyActivity : filteredActivities){
             calories=0;
             runs=0;
@@ -413,22 +405,24 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
                 tag=date.getMonth().getDisplayName(TextStyle.SHORT,Locale.US)+" "+date.getYear();
             }
 
-            rowData[index] = new String[]{tag,
-                    Integer.toString(runs),
-                    Float.toString(distance),
-                    getTimeStringFromSeconds(movingTM),
-                    getTimeStringFromSeconds(elapsedTM),
+            rowData = new String[]{tag,
+//                    Integer.toString(runs),
+                    df.format(distance),
+                    getTimeStringFromSeconds(movingTM)+"\n"+ getTimeStringFromSeconds(elapsedTM),
                     Integer.toString(calories),
                     myPace
             };
-            index++;
+            rows.add(rowData);
         }
-        rows.add(rowData);
-        createTableAdapter(headers,rows);
+
+        createTableAdapter(rows);
     }
 
-    private void createTableAdapter(ArrayList<String> headers, ArrayList<String[][]> rows) {
-
+    private void createTableAdapter(ArrayList<String[]> rows) {
+        tableViewAdapter=new TableViewAdapter(this,rows);
+        RecyclerView.LayoutManager layoutManager=new GridLayoutManager((Context) this,1);
+        dataRecyclerVIew.setLayoutManager(layoutManager);
+        dataRecyclerVIew.setAdapter(tableViewAdapter);
     }
 
 

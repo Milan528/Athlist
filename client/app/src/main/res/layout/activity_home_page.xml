@@ -57,6 +57,35 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.46" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline51"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.72" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+
     <View
         android:id="@+id/view2"
         android:layout_width="wrap_content"
@@ -97,205 +126,241 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        app:riv_corner_radius="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/home_page_todaysDate_textView"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:riv_corner_radius="100dp" />
 
-    <GridLayout
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_page_profile_cardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:columnCount="2"
-        android:rowCount="3"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        android:layout_margin="12sp"
+        app:cardCornerRadius="12sp"
+        app:cardElevation="6sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline49"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" >
+        app:layout_constraintTop_toTopOf="@+id/guideline13">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_page_profile_cardView"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardElevation="6sp"
-            app:cardCornerRadius="12sp"
-            android:layout_margin="12sp">
-           <androidx.appcompat.widget.LinearLayoutCompat
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:gravity="center"
-               android:padding="16sp"
-               android:orientation="vertical">
-               <com.makeramen.roundedimageview.RoundedImageView
-                   android:layout_width="80sp"
-                   android:layout_height="80sp"
-                   android:scaleType="centerCrop"
-                   app:riv_corner_radius="12sp"
-                   android:src="@drawable/ic_person_pin"/>
-               <TextView
-                   android:textSize="15sp"
-                   android:layout_marginTop="12sp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="@string/profile"/>
-           </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16sp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_page_addAthlete_cardView"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardElevation="6sp"
-            app:cardCornerRadius="12sp"
-            android:layout_margin="12sp">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="16sp"
-                android:orientation="vertical">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
-                    app:riv_corner_radius="12sp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_person_add_alt_1"/>
-                <TextView
-                    android:textSize="15sp"
-                    android:textAlignment="center"
-                    android:layout_marginTop="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_athlete"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_page_connectToStrava_cardView"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardElevation="6sp"
-            app:cardCornerRadius="12sp"
-            android:layout_margin="12sp">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="16sp"
-                android:orientation="vertical">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
-                    app:riv_corner_radius="12sp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_add_link"/>
-                <TextView
-                    android:textSize="15sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_width="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_height="wrap_content"
-                    android:text="@string/connect_to_strava"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_page_viewActivities_cardView"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardElevation="6sp"
-            app:cardCornerRadius="12sp"
-            android:layout_margin="12sp">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="16sp"
-                android:orientation="vertical">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
-                    app:riv_corner_radius="12sp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_local_activity"/>
-                <TextView
-                    android:textSize="15sp"
-                    android:layout_marginTop="12sp"
-                    android:textAlignment="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/view_activities"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_page_advancedView_cardView"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardElevation="6sp"
-            app:cardCornerRadius="12sp"
-            android:layout_margin="12sp">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="16sp"
-                android:orientation="vertical">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
-                    app:riv_corner_radius="12sp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_pageview"/>
-                <TextView
-                    android:textSize="15sp"
-                    android:layout_marginTop="12sp"
-                    android:textAlignment="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/advanced_view"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardElevation="6sp"
-            app:cardCornerRadius="12sp"
-            android:layout_margin="12sp">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="16sp"
-                android:orientation="vertical">
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
-                    app:riv_corner_radius="12sp"
-                    android:src="@drawable/profile_default"/>
-                <TextView
-                    android:textSize="15sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_pin"
+                app:riv_corner_radius="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                android:text="@string/profile"
+                android:textSize="15sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_page_addAthlete_cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12sp"
+        app:cardCornerRadius="12sp"
+        app:cardElevation="6sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline49"
+        app:layout_constraintTop_toTopOf="@+id/guideline13">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16sp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_add_alt_1"
+                app:riv_corner_radius="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                android:text="@string/add_athlete"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_page_connectToStrava_cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12sp"
+        app:cardCornerRadius="12sp"
+        app:cardElevation="6sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline51"
+        app:layout_constraintEnd_toStartOf="@+id/guideline49"
+        app:layout_constraintStart_toStartOf="@+id/guideline9"
+        app:layout_constraintTop_toTopOf="@+id/guideline50">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16sp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_add_link"
+                app:riv_corner_radius="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                android:text="@string/connect_to_strava"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
 
-    </GridLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_page_viewActivities_cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12sp"
+        app:cardCornerRadius="12sp"
+        app:cardElevation="6sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline51"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline49"
+        app:layout_constraintTop_toTopOf="@+id/guideline50">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16sp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_local_activity"
+                app:riv_corner_radius="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                android:text="@string/view_activities"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/home_page_advancedView_cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12sp"
+        app:cardCornerRadius="12sp"
+        app:cardElevation="6sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline52"
+        app:layout_constraintEnd_toStartOf="@+id/guideline49"
+        app:layout_constraintStart_toStartOf="@+id/guideline9"
+        app:layout_constraintTop_toTopOf="@+id/guideline51">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16sp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_pageview"
+                app:riv_corner_radius="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                android:text="@string/advanced_view"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12sp"
+        app:cardCornerRadius="12sp"
+        app:cardElevation="6sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline52"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline49"
+        app:layout_constraintTop_toTopOf="@+id/guideline51">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16sp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:src="@drawable/profile_default"
+                app:riv_corner_radius="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                android:text="@string/test"
+                android:textSize="15sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
