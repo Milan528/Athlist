@@ -1,5 +1,6 @@
 package com.example.athlist.clients;
 
+import com.example.athlist.interfaces.IChangePasswordCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,4 +26,6 @@ public abstract class MyFirebaseClient {
     public FirebaseAuth getFirebaseAuth() {
         return firebaseAuth;
     }
+
+
 }

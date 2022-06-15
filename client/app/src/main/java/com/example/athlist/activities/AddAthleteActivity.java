@@ -148,6 +148,11 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
         this.finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 
     private class ScrapeMonthlyActivitiesCallback  implements IScrapeMonthlyActivitiesCallback{
 

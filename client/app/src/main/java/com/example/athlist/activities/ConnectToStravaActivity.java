@@ -173,9 +173,9 @@ public class ConnectToStravaActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        Intent intent = new Intent(this, HomePageActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
+//        Intent intent = new Intent(this, HomePageActivity.class);
+//        startActivity(intent);
         finish();
     }
 

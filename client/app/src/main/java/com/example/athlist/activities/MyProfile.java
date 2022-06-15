@@ -15,6 +15,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +24,10 @@ import android.widget.Toast;
 import com.example.athlist.R;
 
 import com.example.athlist.clients.AppClient;
+import com.example.athlist.dialogs.ChangePasswordDialog;
 import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.fragments.StravaConnectionStatusFragment;
+import com.example.athlist.interfaces.IChangePasswordCallback;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -34,11 +37,12 @@ import java.io.InputStream;
 
 public class MyProfile extends AppCompatActivity implements View.OnClickListener {
 
-    TextView usernameTextView,stravaTextView,myProfileTextView;
+    TextView usernameTextView,profilesCountTextView,activitiesCountTextView,emailTextView;
     ImageView backgroundImageView;
     RoundedImageView profileImageView;
-    StravaConnectionStatusFragment stravaConnectionStatusFragment;
-    boolean myProfileSelected,profileImageSelection;
+    Button btnViewActivities,btnChangePassword;
+    boolean profileImageSelection;
+    IChangePasswordCallback changePasswordListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,29 +54,34 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     }
 
     private void setUpPage() {
-        setUpFragments();
-        displayMyProfilePage();
-
+        emailTextView.setText(AppClient.getInstance().getLoggedUser().getEmail());
+        usernameTextView.setText(AppClient.getInstance().getLoggedUser().getUsername());
+        if(AppClient.getInstance().getLoggedUser().getAthleteProfiles()!=null && AppClient.getInstance().getLoggedUser().getAthleteProfiles().size()>0){
+            profilesCountTextView.setText(String.valueOf(AppClient.getInstance().getLoggedUser().getAthleteProfiles().size()));
+            activitiesCountTextView.setText(String.valueOf(AppClient.getInstance().getLoggedUser().getAllActivities().size()));
+        }
     }
-
-
 
 
     private void initializeComponents() {
 
         usernameTextView=findViewById(R.id.profile_page_username_textView);
-        myProfileTextView=findViewById(R.id.profile_page_my_profile_textView);
-        stravaTextView=findViewById(R.id.profile_page_strava_profile_textView);
+        profilesCountTextView=findViewById(R.id.profile_page_profilesCount_textView);
+        activitiesCountTextView=findViewById(R.id.profile_page_activitiesCount_textView);
         backgroundImageView=findViewById(R.id.profile_page_background_imageView);
         profileImageView=findViewById(R.id.profile_page_profile_imageView);
+        btnViewActivities=findViewById(R.id.profile_page_viewActivities_button);
+        btnChangePassword=findViewById(R.id.profile_page_changePassword_button);
+        emailTextView=findViewById(R.id.profile_page_email_textView);
 
         backgroundImageView.setImageBitmap(AppClient.getInstance().getLoggedUser().getBackgroundPhoto());
         profileImageView.setImageBitmap(AppClient.getInstance().getLoggedUser().getProfilePhoto());
+        changePasswordListener=new ChangePasswordListener();
 
         profileImageView.setOnClickListener(this);
         backgroundImageView.setOnClickListener(this);
-        stravaTextView.setOnClickListener(this);
-        myProfileTextView.setOnClickListener(this);
+        btnViewActivities.setOnClickListener(this);
+        btnChangePassword.setOnClickListener(this);
     }
 
 
@@ -81,10 +90,10 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         int clickedId=view.getId();
-        if(clickedId==R.id.profile_page_strava_profile_textView){
-           displayStravaProfilePage();
-        }else if(clickedId==R.id.profile_page_my_profile_textView){
-           displayMyProfilePage();
+        if(clickedId==R.id.profile_page_changePassword_button){
+           changePassword();
+        }else if(clickedId==R.id.profile_page_viewActivities_button){
+            viewActivities();
         }else if(clickedId==R.id.profile_page_background_imageView){
             profileImageSelection=false;
             selectProfileImage();
@@ -95,57 +104,28 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
     }
 
-
-
-    void displayMyProfilePage(){
-        usernameTextView.setText(AppClient.getInstance().getLoggedUser().getUsername());
-        myProfileTextView.setTypeface(Typeface.DEFAULT_BOLD);
-        myProfileTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
-        stravaTextView.setTextColor(ContextCompat.getColor(this, R.color.gray));
-        myProfileTextView.setPaintFlags(myProfileTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        stravaTextView.setPaintFlags(View.INVISIBLE);
-        stravaTextView.setTypeface(Typeface.DEFAULT);
-
-        myProfileSelected=true;
+    private void viewActivities() {
+        Intent intent = new Intent(this, StravaActivitiesActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
-    void displayStravaProfilePage(){
-        stravaTextView.setTypeface(Typeface.DEFAULT_BOLD);
-        stravaTextView.setPaintFlags(myProfileTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        myProfileTextView.setTypeface(Typeface.DEFAULT);
-        stravaTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
-        myProfileTextView.setTextColor(ContextCompat.getColor(this, R.color.gray));
-        myProfileTextView.setPaintFlags(View.INVISIBLE);
-
-        myProfileSelected=false;
+    private void changePassword() {
+        ChangePasswordDialog dialog=new ChangePasswordDialog(changePasswordListener,this);
+        dialog.show(getSupportFragmentManager(),"Change Password");
     }
 
-    private void setUpFragments() {
-        stravaConnectionStatusFragment=new StravaConnectionStatusFragment();
-    }
 
-    private void displayFragment(Fragment fragment){
 
-        String backStackName=fragment.getClass().getName();
-        FragmentManager manager=getSupportFragmentManager();
-        boolean popped=manager.popBackStackImmediate(backStackName,0);
-        if(!popped){
-            manager.beginTransaction()
-                    .replace(R.id.profile_page_fragmentHost_frameLayout,fragment)
-                    .addToBackStack(backStackName)
-                    .commit();
-        }
 
-    }
+
 
     private void selectProfileImage(){
-        if(myProfileSelected) {
             if (!checkStoragePermission()) {
                 requestStoragePermission();
             } else {
                 pickProfileIMage();
             }
-        }
     }
 
     private void requestStoragePermission() {
@@ -196,7 +176,20 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
+        super.onBackPressed();
         this.finish();
+    }
+
+    private class ChangePasswordListener implements IChangePasswordCallback{
+
+        @Override
+        public void onPasswordChangeSuccess(String message) {
+            Toast.makeText(MyProfile.this,message,Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onPasswordChangeFailed(String message) {
+            Toast.makeText(MyProfile.this,message,Toast.LENGTH_LONG).show();
+        }
     }
 }

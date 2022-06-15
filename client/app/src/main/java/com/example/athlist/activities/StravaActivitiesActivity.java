@@ -81,10 +81,8 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        Intent intent = new Intent(this, HomePageActivity.class);
-        startActivity(intent);
-        finish();
+        super.onBackPressed();
+        this.finish();
     }
 
     @Override

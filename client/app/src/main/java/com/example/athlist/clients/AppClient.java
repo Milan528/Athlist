@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.example.athlist.enums.StravaConnectionStatus;
+import com.example.athlist.interfaces.IChangePasswordCallback;
 import com.example.athlist.interfaces.IConnectToStravaCallback;
 import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
 import com.example.athlist.interfaces.ILoginUserCallback;
@@ -104,6 +105,10 @@ public class AppClient {
 
     public FirebaseAuth getFirebaseAuth() {
         return firebaseAuthClient.getFirebaseAuth();
+    }
+
+    public void changePassword(String newPassword,String oldPassword ,IChangePasswordCallback listener) {
+        firebaseAuthClient.changePassword(newPassword,oldPassword,listener);
     }
 
 

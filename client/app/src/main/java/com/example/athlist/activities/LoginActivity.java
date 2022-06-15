@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }else if(clickedId==R.id.login_page_textViewNewUser){
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
+            this.finish();
         }
     }
     @Override
@@ -101,12 +102,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
     private void openHomePage(){
-        //if(AppClient.getInstance().getLoggedUser().getProfilePhoto()!=null && AppClient.getInstance().getLoggedUser().getBackgroundPhoto()!=null) {
             progressBar.setVisibility(View.INVISIBLE);
             Intent intent = new Intent(this, HomePageActivity.class);
             startActivity(intent);
             this.finish();
-        //}
     }
 
     private void showRecoverPasswordDialog()

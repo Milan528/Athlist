@@ -475,6 +475,12 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) { }
 
 

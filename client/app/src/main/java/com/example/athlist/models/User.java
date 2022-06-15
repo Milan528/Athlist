@@ -140,4 +140,18 @@ public class User {
         entry.setEntryName(name);
        athleteProfiles.remove(entry);
     }
+
+    public ArrayList<StravaActivity> getAllActivities() {
+        ArrayList<StravaActivity> activitiesToReturn=new ArrayList<>();
+        if(athleteProfiles!=null){
+            for(AthleteEntry entry : athleteProfiles){
+                for(StravaMonthlyActivities monthlyActivity : entry.getActivities()){
+                    for(StravaActivity activity : monthlyActivity.getMonthlyActivities()){
+                        activitiesToReturn.add(activity);
+                    }
+                }
+            }
+        }
+        return  activitiesToReturn;
+    }
 }

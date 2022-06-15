@@ -10,6 +10,7 @@ import com.example.athlist.R;
 import androidx.annotation.NonNull;
 
 import com.example.athlist.enums.StravaConnectionStatus;
+import com.example.athlist.interfaces.IChangePasswordCallback;
 import com.example.athlist.interfaces.ILoginUserCallback;
 import com.example.athlist.interfaces.IRecoverPasswordCallback;
 import com.example.athlist.interfaces.IUserRegistrationCallback;
@@ -19,8 +20,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
@@ -85,7 +89,35 @@ public class FirebaseAuthClient extends MyFirebaseClient {
 
 
 
+    public void changePassword(String newPassword,String oldPassword, IChangePasswordCallback listener){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(AppClient.getInstance().getLoggedUser().getEmail(), oldPassword);
 
+
+        assert user != null;
+        user.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                       listener.onPasswordChangeSuccess("Password update successful");
+                                    } else {
+                                        listener.onPasswordChangeFailed("Error password not updated");
+                                    }
+                                }
+                            });
+                        } else {
+                            listener.onPasswordChangeFailed("Error auth failed");
+                        }
+                    }
+                });
+
+    }
 
 
 
