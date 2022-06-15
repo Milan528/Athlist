@@ -85,8 +85,6 @@ public class FirebaseMapperClient extends MyFirebaseClient{
                 assert user != null;
                 user.setUserID(userID);
 
-                if(user.getAdditionalInformation()==null)
-                    user.setAdditionalInformation(new ArrayList<>());
                 if(user.getAthleteProfiles()==null)
                     user.setAthleteProfiles(new ArrayList<>());
 
@@ -99,7 +97,6 @@ public class FirebaseMapperClient extends MyFirebaseClient{
                 databaseUserReference.child(userID).removeEventListener(this);
                 callback.loggedUserFetchSuccess();
                 getUserImages(userID, callback);
-                readStravaProfile();
             }
 
             @Override
@@ -108,14 +105,6 @@ public class FirebaseMapperClient extends MyFirebaseClient{
             }
         });
 
-    }
-
-    private void readStravaProfile() {
-        //not implemented
-    }
-
-    private void writeStravaProfile(){
-        //not implemented
     }
 
     private void getUserImages(String userID, IFetchLoggedUserDataListener callback) {
@@ -163,11 +152,6 @@ public class FirebaseMapperClient extends MyFirebaseClient{
     public void readLoggedUserProfile(IFetchLoggedUserDataListener callback) {
         String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         readUserProfile(uid,callback);
-    }
-
-    public void writeLoggedUserProfileInformation() {
-        String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
-        databaseUserReference.child(uid).child("additionalInformation").setValue(AppClient.getInstance().getLoggedUser().getAdditionalInformation());
     }
 
     public void writeConnectionStatus(String userID, StravaConnectionStatus status) {

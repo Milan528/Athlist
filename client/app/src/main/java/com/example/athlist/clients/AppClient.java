@@ -14,6 +14,7 @@ import com.example.athlist.interfaces.IScrapeUserDataCallback;
 import com.example.athlist.interfaces.IUserRegistrationCallback;
 import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 
@@ -33,8 +34,8 @@ public class AppClient {
         retrofitClient.connectToStrava(email,password,uid,callback);
     }
 
-    public void scrapeUserData(String uid, IScrapeUserDataCallback callback){
-        retrofitClient.scrapeUserData(uid,callback);
+    public void scrapeUserData(String uid,String date, IScrapeUserDataCallback callback){
+        retrofitClient.scrapeUserData(uid,date,callback);
     }
 
     public void scrapeMonthlyActivities(String uid, String monthlyLink, IScrapeMonthlyActivitiesCallback callback) {
@@ -80,9 +81,6 @@ public class AppClient {
     public void recoverPassword(String emailRecoverText, IRecoverPasswordCallback recoverPasswordCallback) {
         firebaseAuthClient.recoverPassword(emailRecoverText,recoverPasswordCallback);
     }
-    public void updateLoggedUserProfileInformation(){
-        firebaseMapperClient.writeLoggedUserProfileInformation();
-    }
 
     public void updateStravaConnectionStatus(StravaConnectionStatus status) {
         loggedUser.setConnectionStatus(status);
@@ -102,6 +100,10 @@ public class AppClient {
             firebaseMapperClient.deleteAthleteEntry(loggedUser.getUserID(),entry);
             loggedUser.removeAthleteEntryByName(profileName);
         }
+    }
+
+    public FirebaseAuth getFirebaseAuth() {
+        return firebaseAuthClient.getFirebaseAuth();
     }
 
 

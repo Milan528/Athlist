@@ -9,9 +9,7 @@ import com.example.athlist.interfaces.IRetrofitClient;
 import com.example.athlist.interfaces.IScrapeMonthlyActivitiesCallback;
 import com.example.athlist.interfaces.IScrapeUserDataCallback;
 import com.example.athlist.models.MessageFromServer;
-import com.example.athlist.models.StravaProfile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -79,9 +77,10 @@ public class RetrofitClient implements IRetrofitClient {
     }
 
     @Override
-    public void scrapeUserData(String uid, IScrapeUserDataCallback callback) {
+    public void scrapeUserData(String uid,String date,IScrapeUserDataCallback callback) {
         HashMap<String, String> map=new HashMap<>();
         map.put("uid",uid);
+        map.put("date",date);
 
         Call<MessageFromServer> call=mRetrofitAPI.scrapeUserData(map);
         call.enqueue(new Callback<MessageFromServer>() {
@@ -92,9 +91,9 @@ public class RetrofitClient implements IRetrofitClient {
 
                 }else{
                     MessageFromServer msg = response.body();
-                    AppClient.getInstance().getLoggedUser().setStravaProfile(msg.getStravaProfile());
+                    //AppClient.getInstance().getLoggedUser().setStravaProfile(msg.getStravaProfile());
                     if(response.code()==200){
-                        callback.scrapeUserDataSuccess(msg.getMessage());
+                        callback.scrapeUserDataSuccess(msg.getMessage(),msg.getActivities());
                     }else if(response.code()==500){
                         callback.scrapeUserDataFail(msg.getMessage());
                     }

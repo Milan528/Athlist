@@ -75,6 +75,10 @@
     <string name="movingtime_nelapsedtime">MovingTime/\nElapsedTime</string>
     <string name="calories">Calories</string>
     <string name="pace">Average\nPace</string>
+    <string name="athlete_profile">Athlete Profile</string>
+    <string name="display_by">Display by</string>
+    <string name="year_dots">Year:</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

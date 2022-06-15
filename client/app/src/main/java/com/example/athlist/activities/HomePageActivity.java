@@ -14,23 +14,23 @@ import android.widget.Toast;
 
 import com.example.athlist.R;
 import com.example.athlist.clients.AppClient;
-import com.example.athlist.dialogs.LoadingDialog;
+import com.example.athlist.dialogs.LogOutDialog;
 import com.example.athlist.enums.StravaConnectionStatus;
-import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
+import com.example.athlist.interfaces.ILogoutListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 
-public class HomePageActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomePageActivity extends AppCompatActivity implements View.OnClickListener, ILogoutListener {
 
-    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView,addAthleteCardView,advancedViewCardView;
+    CardView profileCardView,connectToStravaCardView,viewActivitiesCardView,addAthleteCardView,advancedViewCardView,logoutCardView;
     RoundedImageView profileImage;
     TextView welcomeTextView, todaysDateTextView;
+    ILogoutListener logoutListener;
 
 
 
@@ -55,13 +55,16 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         todaysDateTextView=findViewById(R.id.home_page_todaysDate_textView);
         addAthleteCardView=findViewById(R.id.home_page_addAthlete_cardView);
         advancedViewCardView=findViewById(R.id.home_page_advancedView_cardView);
+        logoutCardView=findViewById(R.id.home_page_logout_cardView);
 
         profileImage.setImageBitmap(AppClient.getInstance().getLoggedUser().getProfilePhoto());
+        logoutListener=new LogoutListener();
         profileCardView.setOnClickListener(this);
         connectToStravaCardView.setOnClickListener(this);
         viewActivitiesCardView.setOnClickListener(this);
         addAthleteCardView.setOnClickListener(this);
         advancedViewCardView.setOnClickListener(this);
+        logoutCardView.setOnClickListener(this);
     }
 
     @Override
@@ -77,7 +80,7 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = new Intent(this, StravaActivitiesActivity.class);
             startActivity(intent);
         }else if(clickedId==R.id.home_page_addAthlete_cardView) {
-            if(AppClient.getInstance().getLoggedUser().getConnectionStatus()== StravaConnectionStatus.CONNECTED) {
+            if(AppClient.getInstance().getLoggedUser().getConnectionStatus() == StravaConnectionStatus.CONNECTED) {
                 Intent intent = new Intent(this, AddAthleteActivity.class);
                 startActivity(intent);
             }else{
@@ -86,15 +89,17 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         }else if(clickedId==R.id.home_page_advancedView_cardView){
             Intent intent = new Intent(this, AdvancedViewActivity.class);
             startActivity(intent);
+        }else if(clickedId==R.id.home_page_logout_cardView){
+            logout();
         }
 
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void displayDateAndGreetUser() {
         LocalDate todaysDate=LocalDate.now();
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd MMMM yyyy");
-        //int day=todaysDate.getDayOfMonth();
         String dateToDisplay=todaysDate.format(formatter);
         todaysDateTextView.setText(dateToDisplay);
         greetUser();
@@ -120,10 +125,14 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             displayGreetings("Good Morning "+username);
         }else if(currentHour>=12 && currentHour<17)
             displayGreetings("Good Afternoon "+username);
-//        else if(currentHour>=17 || currentHour<5)
-//            displayGreetings("Good Evening "+username);
         else
             displayGreetings("Good Evening "+username);
+    }
+
+
+    private void logout() {
+        LogOutDialog logOutDialog=new LogOutDialog(logoutListener);
+        logOutDialog.show(getSupportFragmentManager(),"Log out");
     }
 
     private void displayGreetings(String greetings) {
@@ -134,5 +143,26 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     protected void onPostResume() {
         super.onPostResume();
         profileImage.setImageBitmap(AppClient.getInstance().getLoggedUser().getProfilePhoto());
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
+    }
+
+
+    public void onLogout() {
+        AppClient.getInstance().getFirebaseAuth().signOut();
+        Intent i=new Intent(this,LoginActivity.class);
+        startActivity(i);
+        this.finish();
+    }
+
+    private class LogoutListener implements ILogoutListener{
+
+        @Override
+        public void onLogout() {
+            HomePageActivity.this.onLogout();
+        }
     }
 }

@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnRegister;
-    EditText editTextEmail,editTextPassword,editTextConfirmPassword,editTextPhoneNumber,editTextUsername;
+    EditText editTextEmail,editTextPassword,editTextConfirmPassword,editTextUsername;
     IUserRegistrationCallback userRegistrationCallback;
 
     @Override
@@ -40,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editTextEmail=findViewById(R.id.register_page_editTextEmail);
         editTextPassword=findViewById(R.id.register_page_editTextPassword);
         editTextConfirmPassword=findViewById(R.id.register_page_editTextConfirmPassword);
-        editTextPhoneNumber=findViewById(R.id.register_page_editTextPhoneNumber);
         editTextUsername=findViewById(R.id.register_page_editTextUsername);
 
         btnRegister.setOnClickListener(this);
@@ -61,18 +60,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String passwordText = editTextPassword.getText().toString();
         String confirmPasswordText = editTextConfirmPassword.getText().toString();
         String usernameText = editTextUsername.getText().toString();
-        String phoneNumberText = editTextPhoneNumber.getText().toString();
         ArrayList<String> stringsToCheck=new ArrayList<String>();
-        Collections.addAll(stringsToCheck,emailText,passwordText,confirmPasswordText,usernameText,phoneNumberText);
+        Collections.addAll(stringsToCheck,emailText,passwordText,confirmPasswordText,usernameText);
         ArrayList<EditText> errorHolders=new ArrayList<EditText>();
-        Collections.addAll(errorHolders,editTextEmail,editTextPassword,editTextConfirmPassword,editTextUsername,editTextPhoneNumber);
+        Collections.addAll(errorHolders,editTextEmail,editTextPassword,editTextConfirmPassword,editTextUsername);
         if(validateInfo(stringsToCheck,errorHolders))
         {
             if(validatePasswords(passwordText,confirmPasswordText)) {
                 HashMap<String, String> userData = new HashMap<String, String>();
                 userData.put("email", emailText);
                 userData.put("username", usernameText);
-                userData.put("phoneNumber", phoneNumberText);
                 userData.put("password", passwordText);
                 AppClient.getInstance().registerUser(userData,userRegistrationCallback,this);
             }

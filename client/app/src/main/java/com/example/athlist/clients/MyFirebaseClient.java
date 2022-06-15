@@ -21,4 +21,8 @@ public abstract class MyFirebaseClient {
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseUserReference = firebaseDatabase.getReference(USER);
     }
+
+    public FirebaseAuth getFirebaseAuth() {
+        return firebaseAuth;
+    }
 }

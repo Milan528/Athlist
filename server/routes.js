@@ -14,16 +14,10 @@ router.post("/connectToStrava", async(req, res) =>{
 
 
 router.post("/scrapeUserData", async(req, res) =>{
-    console.log("Scraping for id: "+req.body.uid)
-    const data = await scrapeUserData(req.body.uid)
+    console.log("Scraping for id: "+req.body.uid+" date: "+req.body.date)
+    const data = await scrapeUserData(req.body.uid,req.body.date)
     res.status(data.status).send(JSON.stringify(data))
 })
-
-router.post("/scrapeUserRunActivity", async(req, res) =>{
-    const data = await scrapeUserRunActivity(req.body.link,req.body.uid)
-    res.send(data)
-})
-
 
 router.post("/scrapeMonthlyActivities", async(req, res) =>{
     const data = await scrapeMonthlyActivities(req.body.uid,req.body.link)
@@ -34,11 +28,3 @@ router.listen(4000, () => {
     console.log(`Server started on port: 4000`);
 })
 
-
-/*  
-        *RUN IN TERMINAL*
-
-        npm i express mysql cors
-        npm install -g nodemon //only once
-		nodemon "fileName.js"
-    */

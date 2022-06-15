@@ -10,15 +10,11 @@ import java.util.List;
 
 public class User {
     private String email;
-    private String phoneNumber;
     private String username;
-    private List<ProfileInformationElements> additionalInformation;
     private StravaConnectionStatus connectionStatus;
 
     @Exclude
     private List<AthleteEntry> athleteProfiles;
-    @Exclude
-    private StravaProfile stravaProfile;
     @Exclude
     private String userID;
     @Exclude
@@ -38,14 +34,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -54,13 +42,6 @@ public class User {
         this.username = username;
     }
 
-    public List<ProfileInformationElements> getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(List<ProfileInformationElements> additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
 
     public StravaConnectionStatus getConnectionStatus() {
         return connectionStatus;
@@ -103,14 +84,6 @@ public class User {
     @Exclude
     public void setBackgroundPhoto(Bitmap backgroundPhoto) {
         this.backgroundPhoto = backgroundPhoto;
-    }
-    @Exclude
-    public StravaProfile getStravaProfile() {
-        return stravaProfile;
-    }
-    @Exclude
-    public void setStravaProfile(StravaProfile stravaProfile) {
-        this.stravaProfile = stravaProfile;
     }
 
     @Exclude

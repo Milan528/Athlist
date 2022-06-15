@@ -35,9 +35,6 @@ public class StravaConnectionStatusFragment extends Fragment implements View.OnC
         connectToStravaTextView.setOnClickListener(this);
         if(AppClient.getInstance().getLoggedUser().getConnectionStatus()== StravaConnectionStatus.NOT_CONNECTED){
             connectToStravaTextView.setText(R.string.connect_to_strava);
-        }else{
-            if(AppClient.getInstance().getLoggedUser().getStravaProfile()==null)
-                connectToStravaTextView.setText(R.string.download_strava_profile);
         }
     }
 

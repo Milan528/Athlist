@@ -118,28 +118,13 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
             Toast.makeText(this, "Select a profile!", Toast.LENGTH_SHORT).show();
         }else{
             String profileName=spinnerAthleteProfiles.getSelectedItem().toString();
+            Toast.makeText(this, profileName+" is being uploaded!", Toast.LENGTH_SHORT).show();
             AppClient.getInstance().saveAthleteEntry(profileName);
         }
     }
 
-    private void openFiltersPage() {
-        //stranica za filtriranje
-    }
 
-//    private void toggleCalendar() {
-//        if(calendarExpanded){
-//            calendarExpanded=false;
-//            recyclerViewCalendar.setVisibility(View.GONE);
-//            daysOfWeekLinearLayout.setVisibility(View.GONE);
-//            upDownArrowImageView.setImageResource(R.drawable.ic_keyboard_arrow_down);
-//
-//        }else{
-//            calendarExpanded=true;
-//            recyclerViewCalendar.setVisibility(View.VISIBLE);
-//            daysOfWeekLinearLayout.setVisibility(View.VISIBLE);
-//            upDownArrowImageView.setImageResource(R.drawable.ic_keyboard_arrow_up);
-//        }
-//    }
+
 
     public void setMonthView() {
         String month=customCalendar.getMonthFromDate();
@@ -165,17 +150,6 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
 
     private void setUpPage() {
         setDefaultEnglish();
-//        if(AppClient.getInstance().getLoggedUser().getStravaProfile()!=null){
-//            if(AppClient.getInstance().getLoggedUser().getStravaProfile().getActivities()!=null){
-//                stravaActivityList=AppClient.getInstance().getLoggedUser().getStravaProfile().getActivities();
-//            }
-//         else
-//            {
-//                Toast.makeText(this,"There are no activities to be displayed",Toast.LENGTH_LONG).show();
-//             }
-//        }else{
-//            Toast.makeText(this,"Strava Profile has not been downloaded",Toast.LENGTH_LONG).show();
-//        }
         createSpinnerChoices();
         setMonthView();
     }
@@ -190,7 +164,6 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
         }
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,athleteProfiles);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
         spinnerAthleteProfiles.setAdapter(aa);
     }
 

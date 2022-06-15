@@ -44,10 +44,6 @@ public class FirebaseAuthClient extends MyFirebaseClient {
                     }
                     else {
                         callback.userLoginSuccess();
-                        //FirebaseUser user=firebaseAuth.getCurrentUser();
-                        //String uid=user.getUid();
-                        //getUserData(uid,DataRetriveAction.GET_SELF,0,null,null,enclosingActivity);
-                        //getUserData(uid,enclosingActivity);
                     }
                 }
         );
@@ -67,7 +63,6 @@ public class FirebaseAuthClient extends MyFirebaseClient {
                         User user = new User();
                         user.setEmail(params.get("email"));
                         user.setUsername(params.get("username"));
-                        user.setPhoneNumber(params.get("phoneNumber"));
                         user.setConnectionStatus(StravaConnectionStatus.NOT_CONNECTED);
                         AppClient.getInstance().writeUserProfile(user,context);
                         callback.userRegistrationSuccess();

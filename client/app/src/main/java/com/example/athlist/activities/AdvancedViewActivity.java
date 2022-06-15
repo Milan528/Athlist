@@ -345,18 +345,31 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
             movingTM=0;
             elapsedTM=0;
             for(StravaActivity activity : weeklyActivity.getWeeklyActivities()){
-                if(!activity.getCalories().isEmpty()) {
-                    runs++;
+//                if(!activity.getCalories().isEmpty()) {
+//                    runs++;
+//                    calories += Integer.parseInt(activity.getCalories().replace("\n", "").replace("\r", "").replace(",",""));
+//                    distance += Float.parseFloat(activity.getDistance().replace("km","").replace("\n", "").replace("\r", ""));
+//                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
+//                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
+//                }
+
+                if(!activity.getCalories().isEmpty())
                     calories += Integer.parseInt(activity.getCalories().replace("\n", "").replace("\r", "").replace(",",""));
-                    distance += Float.parseFloat(activity.getDistance().replace("km","").replace("\n", "").replace("\r", ""));
-                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
-                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
+                if(!activity.getDistance().isEmpty()) {
+                    runs++;
+                    distance += Float.parseFloat(activity.getDistance().replace("km", "").replace("\n", "").replace("\r", ""));
                 }
+                if(!activity.getMovingTime().isEmpty())
+                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
+
+                if(!activity.getElapsedTime().isEmpty())
+                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
+                else if(!activity.getMovingTime().isEmpty())
+                    elapsedTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
             }
             pace=Math.round(movingTM/distance);
             myPace=getTimeStringFromSeconds(pace)+"/km";
             rowData = new String[]{weeklyActivity.getTag()+"\n"+weeklyActivity.getWeekStart().toString()+"\n"+weeklyActivity.getWeekEnd().toString(),
-//                    Integer.toString(runs),
                     df.format(distance),
                     getTimeStringFromSeconds(movingTM)+"\n"+ getTimeStringFromSeconds(elapsedTM),
                     Integer.toString(calories),
@@ -386,15 +399,22 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
             movingTM=0;
             elapsedTM=0;
             for(StravaActivity activity : monthlyActivity.getMonthlyActivities()){
-                if(!activity.getCalories().isEmpty()) {
-                    runs++;
+                if(!activity.getCalories().isEmpty())
                     calories += Integer.parseInt(activity.getCalories().replace("\n", "").replace("\r", "").replace(",",""));
-                    distance += Float.parseFloat(activity.getDistance().replace("km","").replace("\n", "").replace("\r", ""));
-                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
-                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
+                if(!activity.getDistance().isEmpty()) {
+                    runs++;
+                    distance += Float.parseFloat(activity.getDistance().replace("km", "").replace("\n", "").replace("\r", ""));
                 }
+                if(!activity.getMovingTime().isEmpty())
+                    movingTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
+
+                if(!activity.getElapsedTime().isEmpty())
+                    elapsedTM += getTimeInSeconds(activity.getElapsedTime().replace("\n", "").replace("\r", ""));
+                else if(!activity.getMovingTime().isEmpty())
+                    elapsedTM += getTimeInSeconds(activity.getMovingTime().replace("\n", "").replace("\r", ""));
+
             }
-            pace=(int)(movingTM/distance);
+            pace=Math.round(movingTM/distance);
             myPace=getTimeStringFromSeconds(pace)+"/km";
             if(type.equals("Year")) {
                 tag = monthlyActivity.getMonthYear();
@@ -406,7 +426,6 @@ public class AdvancedViewActivity extends AppCompatActivity implements AdapterVi
             }
 
             rowData = new String[]{tag,
-//                    Integer.toString(runs),
                     df.format(distance),
                     getTimeStringFromSeconds(movingTM)+"\n"+ getTimeStringFromSeconds(elapsedTM),
                     Integer.toString(calories),

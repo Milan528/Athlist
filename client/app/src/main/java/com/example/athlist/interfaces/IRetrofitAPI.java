@@ -2,7 +2,6 @@ package com.example.athlist.interfaces;
 
 
 import com.example.athlist.models.MessageFromServer;
-import com.example.athlist.models.StravaProfile;
 
 import java.util.HashMap;
 

@@ -6,13 +6,15 @@ const {strava_login_url} = require("./stravaUrls.js")
 
 
 
-async function scrapeUserData(uid) {
+async function scrapeUserData(uid,monthYear) {
     let response={
         status:200,
         message: "Downloaded user data",
-        stravaProfile: undefined
+        activities: []
     }
-    const cookiesString = fs.readFileSync(uid+'_strava-cookies-session.json', 'utf8');
+
+    try{
+    const cookiesString = fs.readFileSync("./cookies/"+uid+'_strava-cookies-session.json', 'utf8');
     const cookies = JSON.parse(cookiesString);
 
     process.on('unhandledRejection', (reason, p) => {
@@ -21,37 +23,25 @@ async function scrapeUserData(uid) {
     response.message='Unhandled Rejection at: Promise' + reason
     });
 
-    try{
+    
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     await page.setCookie.apply(page, cookies);
     await page.goto(strava_login_url, {waitUntil: 'load'});
 
-    const userData = await page.evaluate(() => {
-        var dictionary = {};
-        dictionary["athleteName"] = document.querySelectorAll(".athlete-name")[1].textContent
-        dictionary["imageURL"] = document.querySelector(".avatar-img").src
-        dictionary["following"] = document.querySelectorAll(".list-stats.text-center li b")[0].textContent
-        dictionary["followers"] = document.querySelectorAll(".list-stats.text-center li b")[1].textContent
-        dictionary["activitiesCount"] = document.querySelectorAll(".list-stats.text-center li b")[2].textContent
-        return dictionary
+    response.activities = await scrapeUserActivities(page,monthYear,cookies,browser)
 
-     })
 
-     userData["activities"]= await scrapeUserActivities(page)
-     response.stravaProfile=userData
-     browser.close()
+    browser.close()
     }catch(error){
         console.log(error)
         response.status=500
         response.message=error
     }
-    console.log(response)
-   return response
-
+    return response
 }
 
-async function scrapeUserActivities(page) {
+async function scrapeUserActivities(page,monthYear,cookies,browser) {
     
     await page.evaluate(async () => {
         let arrow = document.querySelectorAll(".app-icon.icon-caret-down.icon-dark")[2]
@@ -63,60 +53,150 @@ async function scrapeUserActivities(page) {
      })
      await page.waitForSelector('.training-activity-row')
 
-    const trainings = await page.$$eval(".training-activity-row", (trainingRows) => { 
-        let activities=[]
-        trainingRows.forEach(trainingRow => {
-            let rowData={}
-            rowData["type"] = trainingRow.querySelector(".view-col.col-type").textContent
-            rowData["date"] = trainingRow.querySelector(".view-col.col-date").textContent
-            rowData["title"] = trainingRow.querySelector(".view-col.col-title").textContent
-            rowData["time"] = trainingRow.querySelector(".view-col.col-time").textContent
-            rowData["distance"] = trainingRow.querySelector(".view-col.col-dist").textContent
-            rowData["elevation"] = trainingRow.querySelector(".view-col.col-elev").textContent
-            rowData["link"] = trainingRow.querySelector(".view-col.col-title a").href
 
-            activities.push(rowData)
-        }) 
-        return activities
-    })
+     const activityCountString = await page.evaluate(()=>{
+        return document.querySelector(".activity-count")? document.querySelector(".activity-count").textContent : "0"
+     })
 
-    let filteredArray = trainings.filter(function(e) { return e.type == 'Run' })
+     const activityCountStrings = activityCountString.split(" ")
+
+     const activitiesPerPage = 20
+
+     let pageCount = Math.ceil(parseInt(activityCountStrings[0])/activitiesPerPage)
+
+     if(pageCount===0) return []
+     let finished=false
+     let trainingsToFilter = []
+     let trainings
+    
+    do{
+        console.log("Page "+ pageCount+" opened")
+         trainings = await page.$$eval(".training-activity-row", (trainingRows) => { 
+            let activities=[]
+            trainingRows.forEach(trainingRow => {
+                let rowData={}
+                rowData["type"] = trainingRow.querySelector(".view-col.col-type").textContent
+                rowData["date"] = trainingRow.querySelector(".view-col.col-date").textContent
+                rowData["link"] = trainingRow.querySelector(".view-col.col-title a").href
+                activities.push(rowData)
+            }) 
+            return activities
+        })
+        if(checkStartEnd(trainings,monthYear)){
+            console.log("Funtion returned true for continue")
+            trainingsToFilter.push.apply(trainingsToFilter, trainings)
+        }else{
+            console.log("Funtion returned false for continue")
+            finished=true
+        }
+
+        pageCount--
+        if(pageCount==0){
+            console.log("Colected all pages. Exiting process")
+            finished=true
+        }
+        
+        if(pageCount>0){
+            await page.evaluate(async () => {
+                let arrow = document.querySelector(".btn.btn-default.btn-sm.next_page")
+                await arrow.click()
+            })
+            await page.waitForSelector('.training-activity-row')
+        }
+
+    }while(!finished)
+
+    let filteredArray = await filterAllNotEqualDates(trainingsToFilter,monthYear,cookies,browser)
     page.close()
     return filteredArray
 }
 
-async function scrapeUserRunActivity(monthlyActivityLink,uid){
-        const cookiesString = fs.readFileSync(uid+'_strava-cookies-session.json', 'utf8');
-        const cookies = JSON.parse(cookiesString);
+async function filterAllNotEqualDates(trainings,monthYear,cookies,browser){
+    let trainingsToReturn = []
+    let monthYearParts = monthYear.split("/")
+    let yearToCheck = parseInt(monthYearParts[1])
+    let monthToCheck = parseInt(monthYearParts[0])
+    let trainingParts 
+    let trainingYear,trainingMonth
+    let trainingData
+    for(var i=0; i < trainings.length; i++){
+        if(trainings[i].type == 'Run'){
+            trainingParts = trainings[i].date.split(",")
+            trainingParts = trainingParts[1].split("/")
+            trainingMonth = parseInt(trainingParts[0])
+            trainingYear = parseInt(trainingParts[2])
+            if(trainingYear === yearToCheck){
+                if(trainingMonth === monthToCheck){
+                    trainingData = await getPostData(trainings[i].link,cookies,browser)
+                    trainingsToReturn.push(trainingData)
+                }
+            }
+        }
 
-        process.on('unhandledRejection', (reason, p) => {
-        console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
-        });
+    }
+    return trainingsToReturn
+}
 
-        const browser = await puppeteer.launch({ headless: false });
-        const page = await browser.newPage();
-        await page.setCookie.apply(page, cookies);
-        await page.goto(monthlyActivityLink, {waitUntil: 'load'});
+function checkStartEnd(trainings,monthYear){
+    let firstDateParts = trainings[0].date.split(",")
+    let secondDateParts = trainings[trainings.length-1].date.split(",")
+
+    firstDateParts = firstDateParts[1].split("/")
+    secondDateParts = secondDateParts[1].split("/")
+
+    for (var i = 0; i < firstDateParts.length; i++) {
+        firstDateParts[i] = parseInt(firstDateParts[i]) 
+    }
+
+    for (var i = 0; i < secondDateParts.length; i++) {
+        secondDateParts[i] = parseInt(secondDateParts[i]) 
+    }
+
+   let firstYear,firstMonth,secondYear,secondMonth
+
+   if(firstDateParts[2]===secondDateParts[2]){
+         firstYear = firstDateParts[2]
+         secondYear = secondDateParts[2]
+         if(firstDateParts[0]===secondDateParts[0]){
+            firstMonth = firstDateParts[0]
+            secondMonth = secondDateParts[0]
+         }else if(firstDateParts[0] < secondDateParts[0]){
+            firstMonth = firstDateParts[0]
+            secondMonth = secondDateParts[0]
+         }else{
+            secondMonth = firstDateParts[0]
+            firstMonth = secondDateParts[0]
+         }
+   }else if(firstDateParts[2] < secondDateParts[2]){
+        firstYear = firstDateParts[2]
+        secondYear = secondDateParts[2]
+        firstMonth = firstDateParts[0]
+        secondMonth = secondDateParts[0]
+   }else{
+    firstYear = secondDateParts[2]
+    secondYear = firstDateParts[2]
+    secondMonth = firstDateParts[0]
+    firstMonth = secondDateParts[0]
+   }
+
+   let monthYearParts = monthYear.split("/")
+   let yearToCheck = parseInt(monthYearParts[1])
+   let monthToCheck = parseInt(monthYearParts[0])
 
 
-        const data = await page.evaluate(() => {
-            var dictionary = {};
-            dictionary["name"] = document.querySelector(".text-title1.marginless.activity-name").textContent
-            dictionary["distance"] = document.querySelectorAll(".inline-stats li strong")[0].textContent
-            //dictionary["postMovingTime"] = document.querySelectorAll(".inline-stats li strong")[1].textContent
-            dictionary["time"] = document.querySelectorAll(".details time").textContent
-            dictionary["pace"] = document.querySelectorAll(".inline-stats.section li strong")[2].textContent
-            dictionary["elevation"] = document.querySelectorAll(".spans3")[0].textContent
-            dictionary["calories"] = document.querySelectorAll(".spans3")[1].textContent
-            dictionary["time"] = document.querySelectorAll(".spans3")[2].textContent
-            return dictionary
-        })
-    
-         data["type"]="Run"
-         console.log(data)
-    
-        page.close()
-        return data
+
+
+   if(yearToCheck > secondYear){
+        return false
+   }else if(yearToCheck === secondYear){
+                if(monthToCheck > secondMonth){
+                    return false
+                }else{
+                    return true
+                }     
+   }else{
+        return true
+   }
 }
 
 
@@ -126,8 +206,9 @@ async function scrapeMonthlyActivities(uid,monthlyLink) {
         message: "Downloaded activities",
         activities: []
     }
-    //fali try catch
-    const cookiesString = fs.readFileSync(uid+'_strava-cookies-session.json', 'utf8');
+   
+    try{
+    const cookiesString = fs.readFileSync("./cookies/"+uid+'_strava-cookies-session.json', 'utf8');
     const cookies = JSON.parse(cookiesString);
 
     process.on('unhandledRejection', (reason, p) => {
@@ -137,10 +218,9 @@ async function scrapeMonthlyActivities(uid,monthlyLink) {
     });
 
 
-
     if(response.status!=200) return response
 
-    try{
+   
         const browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
         await page.setCookie.apply(page, cookies);
@@ -159,7 +239,7 @@ async function scrapeMonthlyActivities(uid,monthlyLink) {
         response.status=500
         response.message=error
     }
-    //console.log(response.activities)
+
     return response
    
 }
@@ -207,7 +287,6 @@ async function getPostData(link,cookies,browser){
 
         var dictionary = {};
 
-
         dictionary["title"] = getElementTextContent(".text-title1.marginless.activity-name")
         dictionary["distance"] = getElementTextContent(".inline-stats li strong",0)
         dictionary["movingTime"] = getElementTextContent(".inline-stats li strong",1)
@@ -216,21 +295,23 @@ async function getPostData(link,cookies,browser){
         dictionary["calories"] = getElementTextContent(".spans3",1)
         dictionary["elapsedTime"] = getElementTextContent(".spans3",2)
         dictionary["date"] = getElementTextContent(".details > time")
-       
+        let parsedDate = dictionary["date"].split(" on ")
+        if(parsedDate.length>1){
+            dictionary["date"] ="\n"+parsedDate[1]
+        }
         return dictionary
     })
 
+    
+
     data["type"]="Run"
+
     page.close()
     return data
 }
 
 
 module.exports={scrapeUserData,scrapeMonthlyActivities}
-//11 postova za minut
-//46 za 3 minuta            https://www.strava.com/athletes/26934035#interval?interval=202106&interval_type=month&chart_type=miles&year_offset=0
-//scrapeMonthlyActivities("8MMCH0Cc5tWUWyl6GmukrQfzk993","https://www.strava.com/athletes/26934035#interval?interval=202108&interval_type=month&chart_type=miles&year_offset=0")
-//scrapeUserData("8MMCH0Cc5tWUWyl6GmukrQfzk993")
-//scrapeUserRunActivity("https://www.strava.com/activities/7205067652","28051997")
+
 
 

@@ -40,13 +40,10 @@ public class ChartViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ChartTypes type=chartTypes.get(viewType);
 
         View view;
-        if(type==ChartTypes.BAR_CHART){
+
             view=inflater.inflate(R.layout.bar_chart_view,parent,false);
             viewHolder=new BarChartHolder(view,context);
-        }else{
-            view=inflater.inflate(R.layout.pie_chart_view,parent,false);
-            viewHolder=new PieChartHolder(view,context);
-        }
+
 
 
         ViewGroup.LayoutParams layoutParams=view.getLayoutParams();
@@ -60,17 +57,9 @@ public class ChartViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(chartTypes.get(position)==ChartTypes.BAR_CHART){
             ((BarChartHolder)holder).setGraphTitle(xAxisTitles.get(position));
             ((BarChartHolder)holder).setXYAxis(xValues.get(position),yValues.get(position));
-        }else if(chartTypes.get(position)==ChartTypes.PIE_CHART){
-            ((PieChartHolder)holder).setGraphTitle(xAxisTitles.get(position));
-            ((PieChartHolder)holder).setGraphParams(xValues.get(position),yValues.get(position));
         }
     }
 
-//    @Override
-//    public void onBindViewHolder(@NonNull BarChartHolder holder, int position) {
-//            holder.setGraphTitle(xAxisTitles.get(position));
-//            holder.setXYAxis(xValues.get(position),yValues.get(position));
-//    }
 
     @Override
     public int getItemCount() {

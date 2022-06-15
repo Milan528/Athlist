@@ -1,7 +1,7 @@
 package com.example.athlist.enums;
 
 public enum ChartTypes {
-    BAR_CHART(0,"Bar Chart"),PIE_CHART(1,"Pie Chart");
+    BAR_CHART(0,"Bar Chart");
 
 
     private final int value;

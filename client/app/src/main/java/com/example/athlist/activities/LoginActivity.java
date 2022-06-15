@@ -174,26 +174,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private class FetchLoggedUserDataCallback implements IFetchLoggedUserDataListener {
 
         @Override
-        public void loggedUserFetchSuccess() {
-            Toast.makeText(LoginActivity.this,"Logging in...", Toast.LENGTH_LONG).show();
-        }
+        public void loggedUserFetchSuccess() { }
 
         @Override
         public void loggedUserProfileImageFetchSuccess() {
-            //Toast.makeText(LoginActivity.this,"Profile image fetched", Toast.LENGTH_LONG).show();
+//            Toast.makeText(LoginActivity.this,"Logging in...", Toast.LENGTH_LONG).show();
             openHomePage();
-
-
         }
 
         @Override
-        public void loggedUserBackgroundFetchSuccess() {
-            //Toast.makeText(LoginActivity.this,"Bg image fetched", Toast.LENGTH_LONG).show();
-        }
+        public void loggedUserBackgroundFetchSuccess() { }
 
         @Override
-        public void loggedUserFetchFailed(String message) {
-            //Toast.makeText(LoginActivity.this,message, Toast.LENGTH_LONG).show();
-        }
+        public void loggedUserFetchFailed(String message) { }
     }
 }

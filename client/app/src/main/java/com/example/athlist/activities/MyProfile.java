@@ -1,13 +1,11 @@
 package com.example.athlist.activities;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,7 +14,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,15 +24,10 @@ import com.example.athlist.R;
 
 import com.example.athlist.clients.AppClient;
 import com.example.athlist.enums.StravaConnectionStatus;
-import com.example.athlist.fragments.MyProfileInformationFragment;
 import com.example.athlist.fragments.StravaConnectionStatusFragment;
-import com.example.athlist.fragments.StravaProfileInformationFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -45,8 +37,6 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
     TextView usernameTextView,stravaTextView,myProfileTextView;
     ImageView backgroundImageView;
     RoundedImageView profileImageView;
-    MyProfileInformationFragment myProfileInformationFragment;
-    StravaProfileInformationFragment stravaProfileInformationFragment;
     StravaConnectionStatusFragment stravaConnectionStatusFragment;
     boolean myProfileSelected,profileImageSelection;
 
@@ -117,8 +107,6 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         stravaTextView.setTypeface(Typeface.DEFAULT);
 
         myProfileSelected=true;
-        displayFragment(myProfileInformationFragment);
-
     }
 
     void displayStravaProfilePage(){
@@ -130,16 +118,9 @@ public class MyProfile extends AppCompatActivity implements View.OnClickListener
         myProfileTextView.setPaintFlags(View.INVISIBLE);
 
         myProfileSelected=false;
-        if(AppClient.getInstance().getLoggedUser().getConnectionStatus() == StravaConnectionStatus.CONNECTED && AppClient.getInstance().getLoggedUser().getStravaProfile()!=null) {
-            displayFragment(stravaProfileInformationFragment);
-        }else{
-            displayFragment(stravaConnectionStatusFragment);
-        }
     }
 
     private void setUpFragments() {
-        myProfileInformationFragment=new MyProfileInformationFragment();
-        stravaProfileInformationFragment=new StravaProfileInformationFragment();
         stravaConnectionStatusFragment=new StravaConnectionStatusFragment();
     }
 

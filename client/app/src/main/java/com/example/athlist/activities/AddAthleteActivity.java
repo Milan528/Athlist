@@ -69,9 +69,6 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        if(!athleteProfiles.get(position).isEmpty()) {
-            Toast.makeText(getApplicationContext(), athleteProfiles.get(position), Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -101,7 +98,7 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
             }else{
                 String link=monthlyLinkEditText.getText().toString();
                 AppClient.getInstance().scrapeMonthlyActivities(AppClient.getInstance().getLoggedUser().getUserID(),link,scrapeMonthlyActivitiesCallback);
-                Toast.makeText(this, "Downloading activities may take a few minutes. Please wait", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Downloading activities may take a few minutes. Please wait", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.VISIBLE);
             }
         }
