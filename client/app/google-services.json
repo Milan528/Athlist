@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1015162846485",
+    "firebase_url": "https://athlist-ba54f-default-rtdb.firebaseio.com",
+    "project_id": "athlist-ba54f",
+    "storage_bucket": "athlist-ba54f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015162846485:android:30caf374de45170ee4fd1c",
+        "android_client_info": {
+          "package_name": "com.example.athlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015162846485-p2qp976mee6e53ckjbtvnn8e26tloksk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0tWuKWjUiO1cS1J5BniP6MfS19Ov89Z8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015162846485-p2qp976mee6e53ckjbtvnn8e26tloksk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
