@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.athlist.R;
 import com.example.athlist.clients.AppClient;
+import com.example.athlist.dialogs.AddServerAddressDialog;
 import com.example.athlist.interfaces.IScrapeMonthlyActivitiesCallback;
 import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.StravaActivity;
@@ -30,10 +31,11 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
 
     Spinner athleteProfileSpinner;
     EditText athleteEntryEditText,monthlyLinkEditText;
-    Button addAthleteBtn,addActivitiesBtn,viewActivitiesBtn;
+    Button addAthleteBtn,addActivitiesBtn,viewActivitiesBtn,addServerAddressBtn;
     ProgressBar progressBar;
     ArrayList<String> athleteProfiles;
     IScrapeMonthlyActivitiesCallback scrapeMonthlyActivitiesCallback;
+
 
 
     @Override
@@ -57,6 +59,7 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
         addActivitiesBtn=findViewById(R.id.add_athlete_page_buttonAddActivities);
         viewActivitiesBtn=findViewById(R.id.add_athlete_page_buttonViewActivities);
         progressBar=findViewById(R.id.add_athlete_page_progressBar);
+        addServerAddressBtn=findViewById(R.id.add_athlete_page_buttonAddServerAddress);
 
         scrapeMonthlyActivitiesCallback=new ScrapeMonthlyActivitiesCallback();
 
@@ -65,6 +68,8 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
         addAthleteBtn.setOnClickListener(this);
         addActivitiesBtn.setOnClickListener(this);
         viewActivitiesBtn.setOnClickListener(this);
+        addServerAddressBtn.setOnClickListener(this);
+
     }
 
     @Override
@@ -85,21 +90,38 @@ public class AddAthleteActivity extends AppCompatActivity implements AdapterView
             addActivities();
         }else if(clickedId==R.id.add_athlete_page_buttonViewActivities){
             viewActivities();
+        }else if(clickedId==R.id.add_athlete_page_buttonAddServerAddress){
+            addServerIpAddress();
         }
     }
 
+    private void addServerIpAddress() {
+        AddServerAddressDialog dialog=new AddServerAddressDialog(this);
+        dialog.show(getSupportFragmentManager(),"ServerAddressDialog");
+    }
+
+    private boolean checkIfRetrofitCreated(){
+        if(AppClient.getInstance().getRetrofitClient()==null){
+            Toast.makeText(this,"Add server address before downloading data!",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
     private void addActivities() {
-        String text = athleteProfileSpinner.getSelectedItem().toString();
-        if(text.isEmpty()){
-            Toast.makeText(this,"Athlete profile not selected",Toast.LENGTH_LONG).show();
-        }else{
-            if(monthlyLinkEditText.getText().toString().isEmpty()){
-                monthlyLinkEditText.setError("Link can not be empty!");
-            }else{
-                String link=monthlyLinkEditText.getText().toString();
-                AppClient.getInstance().scrapeMonthlyActivities(AppClient.getInstance().getLoggedUser().getUserID(),link,scrapeMonthlyActivitiesCallback);
-                Toast.makeText(this, "Downloading activities may take a few minutes. Please wait", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.VISIBLE);
+        if(checkIfRetrofitCreated()) {
+            String text = athleteProfileSpinner.getSelectedItem().toString();
+            if (text.isEmpty()) {
+                Toast.makeText(this, "Athlete profile not selected", Toast.LENGTH_LONG).show();
+            } else {
+                if (monthlyLinkEditText.getText().toString().isEmpty()) {
+                    monthlyLinkEditText.setError("Link can not be empty!");
+                } else {
+                    String link = monthlyLinkEditText.getText().toString();
+                    AppClient.getInstance().scrapeMonthlyActivities(AppClient.getInstance().getLoggedUser().getUserID(), link, scrapeMonthlyActivitiesCallback);
+                    Toast.makeText(this, "Downloading activities may take a few minutes. Please wait", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.VISIBLE);
+                }
             }
         }
     }

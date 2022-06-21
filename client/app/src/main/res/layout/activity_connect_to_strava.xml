@@ -177,17 +177,30 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
 
     <Button
-        android:id="@+id/connect_to_strava_buttonViewActivities"
+    android:id="@+id/connect_to_strava_buttonViewActivities"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_border_purple_700"
+    android:text="@string/view_activities"
+    android:textColor="@color/white"
+    android:textSize="15sp"
+    android:layout_marginTop="15sp"
+    app:layout_constraintEnd_toStartOf="@+id/guideline36"
+    app:layout_constraintStart_toStartOf="@+id/guideline35"
+    app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonScrapeUserData" />
+
+    <Button
+        android:id="@+id/connect_to_strava_buttonAddServerAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_border_purple_700"
-        android:text="@string/view_activities"
+        android:text="@string/add_server_address"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:layout_marginTop="15sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline36"
         app:layout_constraintStart_toStartOf="@+id/guideline35"
-        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonScrapeUserData" />
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonViewActivities" />
 
 
     <ProgressBar
@@ -201,7 +214,7 @@
         android:max="100"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonViewActivities"
+        app:layout_constraintTop_toBottomOf="@+id/connect_to_strava_buttonAddServerAddress"
         tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

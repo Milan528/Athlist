@@ -2,16 +2,12 @@ package com.example.athlist.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,8 +21,6 @@ import com.example.athlist.R;
 
 import com.example.athlist.clients.AppClient;
 import com.example.athlist.dialogs.ChangePasswordDialog;
-import com.example.athlist.enums.StravaConnectionStatus;
-import com.example.athlist.fragments.StravaConnectionStatusFragment;
 import com.example.athlist.interfaces.IChangePasswordCallback;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.theartofdev.edmodo.cropper.CropImage;

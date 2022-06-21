@@ -1,7 +1,5 @@
 Visual code
-npm install firebase@8.10.0 
 npm install puppeteer-extra
-npm install puppeteer-extra-plugin-stealth
 npm install express
 npm install cors
 

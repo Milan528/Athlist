@@ -86,6 +86,9 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="cancel">Cancel</string>
+    <string name="add_server_address">Add server address</string>
+    <string name="enter_server_address">Enter server address</string>
+    <string name="server_address">Server address</string>
 
 
 </resources>

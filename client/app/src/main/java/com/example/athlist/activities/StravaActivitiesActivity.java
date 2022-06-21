@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -21,16 +19,11 @@ import android.widget.Toast;
 
 import com.example.athlist.R;
 import com.example.athlist.adapters.CalendarViewAdapter;
-import com.example.athlist.adapters.ChartViewAdapter;
 import com.example.athlist.clients.AppClient;
-import com.example.athlist.enums.ChartTypes;
 import com.example.athlist.models.AthleteEntry;
 import com.example.athlist.models.MyCustomCalendar;
 import com.example.athlist.models.StravaActivity;
-import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -54,7 +47,6 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
         setContentView(R.layout.activity_strava_activities);
         initializeComponents();
         setUpPage();
-        //createSampleCharts();
     }
 
     private void initializeComponents() {
@@ -171,69 +163,6 @@ public class StravaActivitiesActivity extends AppCompatActivity implements Adapt
         setMonthView();
     }
 
-    /*
-        private void createSampleCharts(){
-            ArrayList<ChartTypes> chartTypes=new ArrayList<>();
-            chartTypes.add(ChartTypes.BAR_CHART);
-            chartTypes.add(ChartTypes.PIE_CHART);
-            ArrayList<ArrayList<String>> xValues=new ArrayList<>();
-            ArrayList<ArrayList<Integer>> yValues=new ArrayList<>();
-            ArrayList<String> graph1X=new ArrayList<>();
-            graph1X.add("Jan");
-            graph1X.add("Feb");
-            graph1X.add("Mar");
-            graph1X.add("Apr");
-            graph1X.add("May");
-            graph1X.add("Jun");
-            graph1X.add("Jul");
-            graph1X.add("Avg");
-            graph1X.add("Sep");
-            graph1X.add("Oct");
-            graph1X.add("Nov");
-            graph1X.add("Dec");
-            ArrayList<Integer> graph1Y=new ArrayList<>();
-            graph1Y.add(10);
-            graph1Y.add(11);
-            graph1Y.add(10);
-            graph1Y.add(9);
-            graph1Y.add(8);
-            graph1Y.add(7);
-            graph1Y.add(6);
-            graph1Y.add(1);
-            graph1Y.add(2);
-            graph1Y.add(3);
-            graph1Y.add(4);
-            graph1Y.add(5);
-            ArrayList<String> graph2X=new ArrayList<>();
-            graph2X.add("W1");
-            graph2X.add("Week2");
-            graph2X.add("Week3");
-            graph2X.add("Week4");
-            graph2X.add("Week5");
-
-            ArrayList<Integer> graph2Y=new ArrayList<>();
-            graph2Y.add(20);
-            graph2Y.add(50);
-            graph2Y.add(10);
-            graph2Y.add(5);
-            graph2Y.add(35);
-
-            xValues.add(graph1X);
-            xValues.add(graph2X);
-
-            yValues.add(graph1Y);
-            yValues.add(graph2Y);
-
-
-            ArrayList<String> xAxisTitles=new ArrayList<>();
-            xAxisTitles.add("Activities");
-            xAxisTitles.add("Distance");
-            chartViewAdapter=new ChartViewAdapter(chartTypes,this,xValues,yValues,xAxisTitles);
-            RecyclerView.LayoutManager layoutManager=new GridLayoutManager((Context) this,1);
-            recyclerViewCharts.setLayoutManager(layoutManager);
-            recyclerViewCharts.setAdapter(chartViewAdapter);
-        }
-    */
     @Override
     public void onItemClicked(List<StravaActivity> activities,int week) {
         Toast.makeText(this,"Week "+Integer.toString(week),Toast.LENGTH_LONG).show();

@@ -166,6 +166,20 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/add_athlete_page_progressBar"
         app:layout_constraintEnd_toStartOf="@+id/guideline39"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline38"
+        app:layout_constraintTop_toBottomOf="@+id/add_athlete_page_buttonAddServerAddress" />
+
+    <Button
+        android:id="@+id/add_athlete_page_buttonAddServerAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_border_purple_700"
+        android:text="@string/add_server_address"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginTop="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline39"
         app:layout_constraintStart_toStartOf="@+id/guideline38"
         app:layout_constraintTop_toBottomOf="@+id/add_athlete_page_buttonAddActivities" />
 

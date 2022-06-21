@@ -28,7 +28,14 @@ public class AppClient {
     private AppClient(){
         firebaseAuthClient=new FirebaseAuthClient();
         firebaseMapperClient=new FirebaseMapperClient();
-        retrofitClient=new RetrofitClient();
+    }
+
+    public IRetrofitClient getRetrofitClient() {
+        return retrofitClient;
+    }
+
+    public void setRetrofitClient(IRetrofitClient retrofitClient) {
+        this.retrofitClient = retrofitClient;
     }
 
     public void connectToStrava(String email, String password, String uid, IConnectToStravaCallback callback){
@@ -109,6 +116,10 @@ public class AppClient {
 
     public void changePassword(String newPassword,String oldPassword ,IChangePasswordCallback listener) {
         firebaseAuthClient.changePassword(newPassword,oldPassword,listener);
+    }
+
+    public void createRetrofitClient(String address){
+        retrofitClient=new RetrofitClient(address);
     }
 
 

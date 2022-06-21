@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/add_sever_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8sp"
+        android:text="@string/enter_server_address"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/dialog_server_address_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_border"
+        android:drawablePadding="16sp"
+        android:hint="@string/server_address"
+        android:inputType="text"
+        android:padding="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_sever_textView" />
+
+    <Button
+        android:id="@+id/dialog_saveAddress_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textColor="@color/teal_700"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_saveAddress_save_button"
+        app:layout_constraintEnd_toStartOf="@+id/dialog_saveAddress_save_button"
+        app:layout_constraintTop_toTopOf="@+id/dialog_saveAddress_save_button" />
+
+    <Button
+        android:id="@+id/dialog_saveAddress_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8sp"
+        android:background="@android:color/transparent"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="10sp"
+        android:text="@string/save"
+        android:textColor="@color/teal_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_server_address_editText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,12 +22,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient implements IRetrofitClient {
-    private final Retrofit mRetrofit;
-    private final IRetrofitAPI mRetrofitAPI;
-    private static final String BASE_URL="http://192.168.1.12:4000";
+    private  Retrofit mRetrofit;
+    private  IRetrofitAPI mRetrofitAPI;
+    private  String BASE_URL;  //"http://192.168.1.12:4000"; //"https://athlist.nutri4run.com/";
 
-    public RetrofitClient(){
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    public RetrofitClient(String serverAddress){
+        BASE_URL="http://"+serverAddress+":4000";
+         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(6000, TimeUnit.SECONDS)
                 .connectTimeout(6000, TimeUnit.SECONDS)
                 .build();

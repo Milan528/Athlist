@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.athlist.R;
 import com.example.athlist.clients.AppClient;
+import com.example.athlist.dialogs.AddServerAddressDialog;
 import com.example.athlist.enums.StravaConnectionStatus;
 import com.example.athlist.interfaces.IConnectToStravaCallback;
 import com.example.athlist.interfaces.IScrapeUserDataCallback;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 
 public class ConnectToStravaActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button btnConnectToStrava,btnScrapeUserData,btnViewActivities;
+    Button btnConnectToStrava,btnScrapeUserData,btnViewActivities,btcAddServerAddress;
     EditText editTextEmail,editTextPassword,editTextYear;
     TextView textViewConnectionStatus;
     ProgressBar progressBar;
@@ -60,6 +61,7 @@ public class ConnectToStravaActivity extends AppCompatActivity implements View.O
         textViewConnectionStatus=findViewById(R.id.connect_to_strava_textViewConnectionStatus);
         progressBar=findViewById(R.id.connect_to_strava_progressBar);
         monthsSpinner=findViewById(R.id.months_spinner);
+        btcAddServerAddress=findViewById(R.id.connect_to_strava_buttonAddServerAddress);
 
         connectToStravaCallback=new ConnectToStravaCallback();
         scrapeUserDataCallback=new ScrapeUserDataCallback();
@@ -69,6 +71,7 @@ public class ConnectToStravaActivity extends AppCompatActivity implements View.O
         btnScrapeUserData.setOnClickListener(this);
         btnViewActivities.setOnClickListener(this);
         monthsSpinner.setOnItemSelectedListener(this);
+        btcAddServerAddress.setOnClickListener(this);
 
     }
 
@@ -82,6 +85,8 @@ public class ConnectToStravaActivity extends AppCompatActivity implements View.O
             scrapeUserData();
         }else if(clickedId==R.id.connect_to_strava_buttonViewActivities){
             viewActivities();
+        }else if(clickedId==R.id.connect_to_strava_buttonAddServerAddress){
+            addServerIpAddress();
         }
     }
 
@@ -130,15 +135,16 @@ public class ConnectToStravaActivity extends AppCompatActivity implements View.O
     }
 
     private void scrapeUserData() {
-        if(monthsSpinner.getSelectedItem().toString().isEmpty()){
-            Toast.makeText(this, "Select a month to download!", Toast.LENGTH_LONG).show();
-        }else if(editTextYear.getText().toString().isEmpty()){
-            Toast.makeText(this, "Enter a year to download!", Toast.LENGTH_LONG).show();
-        }else{
-            progressBar.setVisibility(View.VISIBLE);
-            AppClient.getInstance().scrapeUserData(AppClient.getInstance().getLoggedUser().getUserID(),selectedMonth+"/"+editTextYear.getText().toString(),scrapeUserDataCallback);
+        if(checkIfRetrofitCreated()) {
+            if (monthsSpinner.getSelectedItem().toString().isEmpty()) {
+                Toast.makeText(this, "Select a month to download!", Toast.LENGTH_LONG).show();
+            } else if (editTextYear.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Enter a year to download!", Toast.LENGTH_LONG).show();
+            } else {
+                progressBar.setVisibility(View.VISIBLE);
+                AppClient.getInstance().scrapeUserData(AppClient.getInstance().getLoggedUser().getUserID(), selectedMonth + "/" + editTextYear.getText().toString(), scrapeUserDataCallback);
+            }
         }
-
     }
 
 
@@ -159,16 +165,29 @@ public class ConnectToStravaActivity extends AppCompatActivity implements View.O
         return valid;
     }
 
-    private void connectToStrava()
-    {
-        String emailText = editTextEmail.getText().toString();
-        String passwordText = editTextPassword.getText().toString();
-        if(validateInfo(emailText,passwordText))
-        {
-            Toast.makeText(this,"Connecting to Strava. Please wait!",Toast.LENGTH_LONG).show();
-            AppClient.getInstance().connectToStrava(emailText,passwordText,AppClient.getInstance().getLoggedUser().getUserID(),connectToStravaCallback);
-            progressBar.setVisibility(View.VISIBLE);
+    private void connectToStrava() {
+        if(checkIfRetrofitCreated()) {
+            String emailText = editTextEmail.getText().toString();
+            String passwordText = editTextPassword.getText().toString();
+            if (validateInfo(emailText, passwordText)) {
+                Toast.makeText(this, "Connecting to Strava. Please wait!", Toast.LENGTH_LONG).show();
+                AppClient.getInstance().connectToStrava(emailText, passwordText, AppClient.getInstance().getLoggedUser().getUserID(), connectToStravaCallback);
+                progressBar.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    private void addServerIpAddress() {
+        AddServerAddressDialog dialog=new AddServerAddressDialog(this);
+        dialog.show(getSupportFragmentManager(),"ServerAddressDialog");
+    }
+
+    private boolean checkIfRetrofitCreated(){
+        if(AppClient.getInstance().getRetrofitClient()==null){
+            Toast.makeText(this,"Add server address before downloading data!",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     @Override

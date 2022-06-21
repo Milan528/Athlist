@@ -1,8 +1,8 @@
 
-const puppeteer = require('puppeteer-extra');
-const pluginStealth = require('puppeteer-extra-plugin-stealth');
+const puppeteer = require('puppeteer');
+// const pluginStealth = require('puppeteer-extra-plugin-stealth');
 const {strava_login_url} = require("./stravaUrls.js")
-puppeteer.use(pluginStealth());
+// puppeteer.use(pluginStealth());
 const fs = require('fs');
 
 
@@ -36,6 +36,7 @@ async function connectToStrava(email, password, uid) {
         
 
     const cookies = await pageLogin.cookies()
+    //console.log(cookies)
     pageLogin.close()
     browser.close()
 
@@ -49,10 +50,12 @@ async function connectToStrava(email, password, uid) {
         result.message=error
     }
 
-    
+    //console.log(result)
      return result
 }
 
 module.exports={
     connectToStrava
 }
+
+//connectToStrava("milan1andjelovic@gmail.com","123456789","w7r0oVmCZjYvrvipkMWJsa9FjbO2")

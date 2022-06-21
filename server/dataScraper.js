@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer-extra');
-const pluginStealth = require('puppeteer-extra-plugin-stealth');
-puppeteer.use(pluginStealth());
+// const pluginStealth = require('puppeteer-extra-plugin-stealth');
+// puppeteer.use(pluginStealth());
 const fs = require('fs');
 const {strava_login_url} = require("./stravaUrls.js")
 
@@ -24,7 +24,7 @@ async function scrapeUserData(uid,monthYear) {
     });
 
     
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.setCookie.apply(page, cookies);
     await page.goto(strava_login_url, {waitUntil: 'load'});
@@ -34,7 +34,7 @@ async function scrapeUserData(uid,monthYear) {
 
     browser.close()
     }catch(error){
-        console.log(error)
+        //console.log(error)
         response.status=500
         response.message=error
     }
@@ -70,7 +70,7 @@ async function scrapeUserActivities(page,monthYear,cookies,browser) {
      let trainings
     
     do{
-        console.log("Page "+ pageCount+" opened")
+        //console.log("Page "+ pageCount+" opened")
          trainings = await page.$$eval(".training-activity-row", (trainingRows) => { 
             let activities=[]
             trainingRows.forEach(trainingRow => {
@@ -83,16 +83,16 @@ async function scrapeUserActivities(page,monthYear,cookies,browser) {
             return activities
         })
         if(checkStartEnd(trainings,monthYear)){
-            console.log("Funtion returned true for continue")
+            //console.log("Funtion returned true for continue")
             trainingsToFilter.push.apply(trainingsToFilter, trainings)
         }else{
-            console.log("Funtion returned false for continue")
+            //console.log("Funtion returned false for continue")
             finished=true
         }
 
         pageCount--
         if(pageCount==0){
-            console.log("Colected all pages. Exiting process")
+            //console.log("Colected all pages. Exiting process")
             finished=true
         }
         
@@ -221,21 +221,21 @@ async function scrapeMonthlyActivities(uid,monthlyLink) {
     if(response.status!=200) return response
 
    
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         await page.setCookie.apply(page, cookies);
         await page.goto(monthlyLink, {waitUntil: 'load'})
         try {
             await page.waitForNavigation({ timeout: 10000 })
           } catch (e) {
-              console.log("Navigation 8 sec passed")
+              //console.log("Navigation 8 sec passed")
           }
 
         response.activities = await getAthletePosts(page,cookies,browser)
         browser.close()
     }
     catch(error){
-        console.log(error)
+        //console.log(error)
         response.status=500
         response.message=error
     }
@@ -257,8 +257,8 @@ async function getAthletePosts(page,cookies,browser){
             return linksArray     
     })
 
-    console.log("LINKS:")
-    console.log(postLinks.length)
+     //console.log("LINKS:")
+    // console.log(postLinks.length)
     let postsData=[]
     let data
    
@@ -274,7 +274,7 @@ async function getAthletePosts(page,cookies,browser){
 
 async function getPostData(link,cookies,browser){
 
-    console.log("Getting post data for "+link)
+    //console.log("Getting post data for "+link)
     const page = await browser.newPage();
     await page.setCookie.apply(page, cookies);
     await page.goto(link, {waitUntil: 'load'});
