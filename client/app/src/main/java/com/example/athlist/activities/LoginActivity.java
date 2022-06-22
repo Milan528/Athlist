@@ -1,23 +1,19 @@
 package com.example.athlist.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.athlist.R;
 import com.example.athlist.clients.AppClient;
+import com.example.athlist.dialogs.RecoverPasswordDialog;
 import com.example.athlist.interfaces.IFetchLoggedUserDataListener;
 import com.example.athlist.interfaces.ILoginUserCallback;
 import com.example.athlist.interfaces.IRecoverPasswordCallback;
@@ -110,39 +106,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void showRecoverPasswordDialog()
     {
-        AlertDialog.Builder forgotPasswordDialog = new AlertDialog.Builder(this);
-        forgotPasswordDialog.setTitle("Reset password");
-
-        LinearLayout linearLayout = new LinearLayout(this);
-
-        final EditText emailRecover = new EditText(this);
-        emailRecover.setHint(R.string.email);
-        emailRecover.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
-        linearLayout.addView(emailRecover);
-        linearLayout.setPadding(10,10,10,10);
-
-        forgotPasswordDialog.setView(linearLayout);
-
-        forgotPasswordDialog.setPositiveButton("Recover", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                String emailRecoverText = emailRecover.getText().toString().trim();
-                AppClient.getInstance().recoverPassword(emailRecoverText,recoverPasswordCallback);
-            }
-        });
-        forgotPasswordDialog.setNegativeButton("Cancle", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        forgotPasswordDialog.create().show();
+        RecoverPasswordDialog dialog=new RecoverPasswordDialog(this,recoverPasswordCallback);
+        dialog.show(getSupportFragmentManager(),"RecoverPasswordDialog");
     }
 
 
@@ -177,7 +142,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void loggedUserProfileImageFetchSuccess() {
-//            Toast.makeText(LoginActivity.this,"Logging in...", Toast.LENGTH_LONG).show();
             openHomePage();
         }
 

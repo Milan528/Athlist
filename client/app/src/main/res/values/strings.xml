@@ -89,6 +89,7 @@
     <string name="add_server_address">Add server address</string>
     <string name="enter_server_address">Enter server address</string>
     <string name="server_address">Server address</string>
+    <string name="recover">Recover</string>
 
 
 </resources>

@@ -26,24 +26,12 @@ router.post("/scrapeMonthlyActivities", async(req, res) =>{
     res.status(data.status).send(JSON.stringify(data))
 })
 
-// router.get('/', (req, res) => {
-//     res.send("Server funkcionise");
-//   });
-
 //za localhost
 router.listen(4000, () => {
     console.log(`Server started on port: 4000`);
 })
 
-//za domain
-// router.listen()
 
 
-// const hostname = '127.0.0.1';
-// const port = 3000;
 
-
-// router.listen(port, hostname, () => {
-//   console.log(`Server running at http://${hostname}:${port}/`);
-// });
 

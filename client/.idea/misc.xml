@@ -49,6 +49,7 @@
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/dialog_add_server_address.xml" value="0.264" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/dialog_change_password.xml" value="0.27447916666666666" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/dialog_logout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/dialog_reset_password_using_email.xml" value="0.25416666666666665" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/fragment_month_filters.xml" value="0.27447916666666666" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/fragment_my_profile_information.xml" value="0.23738738738738738" />
         <entry key="..\:/Android-Projects/Athlist/client/app/src/main/res/layout/fragment_not_connected_to_strava.xml" value="0.205859375" />
