@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { scrapeUserData,scrapeMonthlyActivities } = require("./dataScraper.js")
 const { connectToStrava } = require("./cookiesScraper.js")
+const { serverPort } = require("./ports.js")
 const router = express();
 router.use(cors());
 router.use(express.urlencoded({extended: true}));
@@ -27,8 +28,8 @@ router.post("/scrapeMonthlyActivities", async(req, res) =>{
 })
 
 //za localhost
-router.listen(4000, () => {
-    console.log(`Server started on port: 4000`);
+router.listen(serverPort, () => {
+    console.log(`Server started on port: `+ serverPort);
 })
 
 

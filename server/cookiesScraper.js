@@ -29,14 +29,9 @@ async function connectToStrava(email, password, uid) {
     await pageLogin.type('#password', password, { delay: 300 })
     await pageLogin.click("#login-button")
 
-
     await pageLogin.waitForSelector('.avatar-badge')
 
-  
-        
-
     const cookies = await pageLogin.cookies()
-    //console.log(cookies)
     pageLogin.close()
     browser.close()
 
@@ -49,8 +44,6 @@ async function connectToStrava(email, password, uid) {
         result.status=500
         result.message=error
     }
-
-    //console.log(result)
      return result
 }
 

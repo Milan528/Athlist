@@ -13,14 +13,6 @@ public class StravaActivity {
 
     public StravaActivity() { }
 
-    public String getPace() {
-        return pace;
-    }
-
-    public void setPace(String pace) {
-        this.pace = pace;
-    }
-
     public String getCalories() {
         return calories;
     }
@@ -84,6 +76,14 @@ public class StravaActivity {
 
     public void setElevation(String elevation) {
         this.elevation = elevation;
+    }
+
+    public String getPace() {
+        return pace;
+    }
+
+    public void setPace(String pace) {
+        this.pace = pace;
     }
 
 }

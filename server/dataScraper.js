@@ -274,7 +274,7 @@ async function getAthletePosts(page,cookies,browser){
 
 async function getPostData(link,cookies,browser){
 
-    //console.log("Getting post data for "+link)
+    console.log("Getting post data for "+link)
     const page = await browser.newPage();
     await page.setCookie.apply(page, cookies);
     await page.goto(link, {waitUntil: 'load'});
@@ -286,7 +286,6 @@ async function getPostData(link,cookies,browser){
         }
 
         var dictionary = {};
-
         dictionary["title"] = getElementTextContent(".text-title1.marginless.activity-name")
         dictionary["distance"] = getElementTextContent(".inline-stats li strong",0)
         dictionary["movingTime"] = getElementTextContent(".inline-stats li strong",1)
